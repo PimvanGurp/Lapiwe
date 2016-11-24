@@ -1,7 +1,7 @@
 {
-  "id":  "Lapiwe.Eventbus.0.2.0",
+  "id":  "Lapiwe.Eventbus",
   "name": "Lapiwe.Eventbus",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "An eventbus implementation using RawRabbit on top of RabbitMQ",
   "title": "Lapiwe Eventbus",
 

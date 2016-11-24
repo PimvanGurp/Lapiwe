@@ -6,7 +6,7 @@ using RawRabbit.Configuration.Subscribe;
 using RawRabbit.Configuration.Publish;
 using Lapiwe.Common;
 
-namespace Lapiwe.Eventbus
+namespace Lapiwe.EventbusClient
 {
     /// <summary>
     ///     The facade class for communicating
@@ -19,7 +19,7 @@ namespace Lapiwe.Eventbus
     ///     EventbusOptions options = new EventbusOptions(port : 1337);
     ///     IEventbus eventbus = new Eventbus(options);
     /// </example>
-    public class LapiweEventbus : IEventbus
+    public class Eventbus : IEventbus
     {
         /// <summary>
         ///     Configuration of the eventbus
@@ -32,40 +32,10 @@ namespace Lapiwe.Eventbus
         /// </summary>
         private IBusClient _busClient; 
 
-        public LapiweEventbus(EventbusOptions options = null)
+        public Eventbus(EventbusOptions options = null)
         {
             _options = options ?? new EventbusOptions();
             _busClient = BusClientFactory.CreateDefault(_options);
-        }
-
-        /// <summary>
-        ///     Send command and wait for its response
-        /// </summary>
-        /// <example>
-        ///     IEventbus eventbus = new Eventbus();
-        ///     eventbus.RPCRequest(new CreateRoomCommand());
-        /// </example>
-        /// <typeparam name="TCommand"></typeparam>
-        /// <param name="domainEvent"></param>
-        public async Task<TResponse> RPCRequest<TCommand, TResponse>(TCommand domainCommand) where TCommand : DomainCommand
-        {
-            return await _busClient.RequestAsync<TCommand, TResponse>();
-        }
-
-        /// <summary>
-        ///     Send command and wait for its response
-        /// </summary>
-        /// <example>
-        ///     IEventbus eventbus = new Eventbus();
-        ///     eventbus.RPCResponse<TResponse>(TResponse entity);
-        /// </example>
-        /// <typeparam name="TCommand"></typeparam>
-        /// <param name="domainEvent"></param>
-        public void RPCResponse<TCommand, TResponse>(ICommandHandler<TCommand> commandHandler) where TCommand : DomainCommand
-        {
-            _busClient.RespondAsync<TCommand, DomainResponse<TResponse>>(async (request, context) => {
-                return commandHandler.HandleRPC<TResponse>(request);
-            });
         }
 
         /// <summary>

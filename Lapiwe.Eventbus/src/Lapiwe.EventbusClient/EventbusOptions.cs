@@ -1,7 +1,7 @@
 ﻿using RawRabbit.Configuration;
 using System.Collections.Generic;
 
-namespace Lapiwe.Eventbus
+namespace Lapiwe.EventbusClient
 {
     /// <summary>
     /// A value object containing all configuration shared by 

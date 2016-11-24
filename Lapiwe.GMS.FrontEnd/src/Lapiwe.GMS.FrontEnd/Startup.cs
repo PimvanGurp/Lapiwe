@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Lapiwe.GMS.Frontend.DAL;
+using Lapiwe.Common;
+using Lapiwe.WSAEventbus;
 
 namespace Lapiwe.GMS.FrontEnd
 {
@@ -35,7 +38,8 @@ namespace Lapiwe.GMS.FrontEnd
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
-
+            services.AddDbContext<LapiweGarageContext>(ServiceLifetime.Scoped);
+            services.AddScoped<IEventbus, Eventbus>();
             services.AddMvc();
         }
 
