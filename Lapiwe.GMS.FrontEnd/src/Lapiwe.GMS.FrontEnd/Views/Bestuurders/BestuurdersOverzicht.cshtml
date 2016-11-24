@@ -8,7 +8,7 @@
         Bestuurder toevoegen
     </a>
 </div>
-<div style="clear:both"></div>
+<div style="clear:both; margin-bottom:10px"></div>
 
 <div class="row">
     @foreach (var bestuurder in Model.Bestuurders)
@@ -34,7 +34,7 @@
                         <i class="fa fa-map-marker"> @bestuurder.Postcode, @bestuurder.Woonplaats</i>
                         <br />
                     </div>
-                    @if (bestuurder.Processed)
+                    @if (false == bestuurder.Processed)
                     {
                         <button type="button" class="btn btn-primary btn-circle"><i class="fa fa-pencil fa-lg"></i></button>
                     }
