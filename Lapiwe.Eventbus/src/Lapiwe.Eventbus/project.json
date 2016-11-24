@@ -13,7 +13,7 @@
 
   "dependencies": {
     "Microsoft.Extensions.Configuration.Json": "1.0.0",
-    "Lapiwe.Common": "1.0.0",
+    "Lapiwe.Common": "1.1.4",
     "NETStandard.Library": "1.6.0",
     "RawRabbit": "1.10.0",
     "RawRabbit.vNext": "1.10.0"

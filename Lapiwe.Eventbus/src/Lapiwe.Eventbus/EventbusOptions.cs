@@ -24,7 +24,7 @@ namespace Lapiwe.Eventbus
             Port = 5672;
             Hostnames = new List<string>() { "localhost" };
             VirtualHost = "/";
-            ExchangeName = "Minor.WSA.WSAEventbus";
+            ExchangeName = "Lapiwe.Eventbus";
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Lapiwe.Eventbus
             int port = 5672,
             string hostName = "localhost",
             string virtualHost = "/",
-            string exchangeName = "Minor.WSA.WSAEventbus"
+            string exchangeName = "Lapiwe.Eventbus"
         )
         {
             Username = username;

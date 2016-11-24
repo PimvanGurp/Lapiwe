@@ -61,10 +61,10 @@ namespace Lapiwe.Eventbus
         /// </example>
         /// <typeparam name="TCommand"></typeparam>
         /// <param name="domainEvent"></param>
-        public void RPCResponse<TCommand, TResponse>(ICommandHandler<TCommand> commandHandler = null) where TCommand : DomainCommand where TResponse : new()
+        public void RPCResponse<TCommand, TResponse>(ICommandHandler<TCommand> commandHandler) where TCommand : DomainCommand
         {
-            _busClient.RespondAsync<TCommand, TResponse>(async (request, context) => {
-                return new TResponse();
+            _busClient.RespondAsync<TCommand, DomainResponse<TResponse>>(async (request, context) => {
+                return commandHandler.HandleRPC<TResponse>(request);
             });
         }
 

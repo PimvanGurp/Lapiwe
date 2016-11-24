@@ -6,6 +6,7 @@ using RawRabbit.vNext.Disposable;
 using System.Threading.Tasks;
 using RawRabbit.Configuration.Subscribe;
 using RawRabbit.Configuration.Publish;
+using Lapiwe.Common;
 
 namespace Lapiwe.Eventbus
 {
@@ -53,7 +54,7 @@ namespace Lapiwe.Eventbus
         {
             Task.Factory.StartNew(() =>
             {
-                _busClient.PublishAsync(domainEvent, domainEvent.Guid, ProvidePublisherConfiguration<TEvent>());
+                _busClient.PublishAsync(domainEvent, domainEvent.CorrelationID, ProvidePublisherConfiguration<TEvent>());
             });
         }
 
@@ -71,7 +72,7 @@ namespace Lapiwe.Eventbus
         {
             Task.Factory.StartNew(() => 
             {
-                _busClient.PublishAsync(domainCommand, domainCommand.Guid, ProvidePublisherConfiguration<TCommand>());
+                _busClient.PublishAsync(domainCommand, domainCommand.Core, ProvidePublisherConfiguration<TCommand>());
             });
         }
 

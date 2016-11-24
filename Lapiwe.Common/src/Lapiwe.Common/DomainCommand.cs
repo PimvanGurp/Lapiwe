@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Minor.WSA.Common.Domain
+namespace Lapiwe.Common
 {
     /// <summary>
     ///     Base class for every domain command
@@ -9,14 +9,15 @@ namespace Minor.WSA.Common.Domain
     /// </summary>
     public abstract class DomainCommand
     {
-        public readonly Guid Guid;
-        public readonly DateTime Timestamp;
-        public 
+        public DateTime TimeStamp { get; set; }
+        public Guid CorrelationID { get; set; }
+        public string RoutingKey { get; set; }
 
         public DomainCommand()
         {
-            Guid = Guid.NewGuid();
-            Timestamp = DateTime.Now;
+            TimeStamp = DateTime.Now;
+            CorrelationID = new Guid();
+            RoutingKey = GetType().FullName;
         }
     }
 }

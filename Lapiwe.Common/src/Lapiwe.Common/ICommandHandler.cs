@@ -9,7 +9,7 @@
     ///     public class CreateRoomHandler : ICommandHandler<CreateRoomCommand>
     /// </example>
     /// <typeparam name="TEvent"></typeparam>
-    public interface ICommandHandler<TRequest, TResponse> 
+    public interface ICommandHandler<TRequest> 
         where TRequest : DomainCommand
     {
         /// <summary>
@@ -17,6 +17,14 @@
         /// </summary>
         /// <param name="domainCommand"></param>
         /// <returns></returns>
-        TResponse Handle(TRequest domainCommand);
+        void Handle(TRequest domainCommand);
+
+        /// <summary>
+        ///     Add functionality to a triggered command
+        ///     and wait for its response
+        /// </summary>
+        /// <param name="domainCommand"></param>
+        /// <returns></returns>
+        DomainResponse<TResponse> HandleRPC<TResponse>(TRequest domainCommand);
     }
 }

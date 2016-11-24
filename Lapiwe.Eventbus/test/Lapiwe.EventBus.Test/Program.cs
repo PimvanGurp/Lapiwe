@@ -13,7 +13,7 @@ namespace Lapiwe.EventBus.Test
         public static void Main(string[] args)
         {
             LapiweEventbus bus = new LapiweEventbus();
-            bus.RPCResponse<RegistreerKlantCommand, int>(null);
+            bus.RPCResponse<RegistreerKlantCommand, RegistreerKlantResponse>(new KlantHandler());
             int result = bus.RPCRequest<RegistreerKlantCommand, int>(new RegistreerKlantCommand()).Result;
 
             Console.WriteLine(result);
