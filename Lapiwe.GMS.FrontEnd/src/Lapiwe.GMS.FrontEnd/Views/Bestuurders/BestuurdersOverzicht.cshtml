@@ -17,7 +17,7 @@
             <div class="panel panel-@(bestuurder.Processed ? "primary" : "default")">
                 <div class="panel-heading">
                     @if (false == bestuurder.Processed)
-                {
+                    {
                         <p style="float:right; font-style:italic">Deze bestuurder wordt verwerkt</p>
                     }
                     <h3 class="panel-title">@bestuurder.FullName()</h3>
@@ -28,10 +28,16 @@
                     <i class="fa fa-envelope-o"> @bestuurder.Emailadres</i>
                     <br />
                     <br />
-                    <i class="fa fa-home"> @bestuurder.Adres</i>
-                    <br />
-                    <i class="fa fa-map-marker"> @bestuurder.Postcode, @bestuurder.Woonplaats</i>
-                    <br />
+                    <div style="float:left">
+                        <i class="fa fa-home"> @bestuurder.Adres</i>
+                        <br />
+                        <i class="fa fa-map-marker"> @bestuurder.Postcode, @bestuurder.Woonplaats</i>
+                        <br />
+                    </div>
+                    @if (bestuurder.Processed)
+                    {
+                        <button type="button" class="btn btn-primary btn-circle"><i class="fa fa-pencil fa-lg"></i></button>
+                    }
                 </div>
             </div>
         </div>
