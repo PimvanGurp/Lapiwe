@@ -1,11 +1,10 @@
 ﻿using System;
-using Minor.WSA.Common.Contracts;
-using Minor.WSA.Common.Domain;
 using RawRabbit.vNext;
 using RawRabbit.vNext.Disposable;
 using System.Threading.Tasks;
 using RawRabbit.Configuration.Subscribe;
 using RawRabbit.Configuration.Publish;
+using Lapiwe.Common;
 
 namespace Lapiwe.Eventbus
 {
@@ -20,7 +19,7 @@ namespace Lapiwe.Eventbus
     ///     EventbusOptions options = new EventbusOptions(port : 1337);
     ///     IEventbus eventbus = new Eventbus(options);
     /// </example>
-    public class Eventbus : IEventbus
+    public class LapiweEventbus : IEventbus
     {
         /// <summary>
         ///     Configuration of the eventbus
@@ -33,10 +32,40 @@ namespace Lapiwe.Eventbus
         /// </summary>
         private IBusClient _busClient; 
 
-        public Eventbus(EventbusOptions options = null)
+        public LapiweEventbus(EventbusOptions options = null)
         {
             _options = options ?? new EventbusOptions();
             _busClient = BusClientFactory.CreateDefault(_options);
+        }
+
+        /// <summary>
+        ///     Send command and wait for its response
+        /// </summary>
+        /// <example>
+        ///     IEventbus eventbus = new Eventbus();
+        ///     eventbus.RPCRequest(new CreateRoomCommand());
+        /// </example>
+        /// <typeparam name="TCommand"></typeparam>
+        /// <param name="domainEvent"></param>
+        public async Task<TResponse> RPCRequest<TCommand, TResponse>(TCommand domainCommand) where TCommand : DomainCommand
+        {
+            return await _busClient.RequestAsync<TCommand, TResponse>();
+        }
+
+        /// <summary>
+        ///     Send command and wait for its response
+        /// </summary>
+        /// <example>
+        ///     IEventbus eventbus = new Eventbus();
+        ///     eventbus.RPCResponse<TResponse>(TResponse entity);
+        /// </example>
+        /// <typeparam name="TCommand"></typeparam>
+        /// <param name="domainEvent"></param>
+        public void RPCResponse<TCommand, TResponse>(ICommandHandler<TCommand> commandHandler = null) where TCommand : DomainCommand where TResponse : new()
+        {
+            _busClient.RespondAsync<TCommand, TResponse>(async (request, context) => {
+                return new TResponse();
+            });
         }
 
         /// <summary>
@@ -53,7 +82,7 @@ namespace Lapiwe.Eventbus
         {
             Task.Factory.StartNew(() =>
             {
-                _busClient.PublishAsync(domainEvent, domainEvent.Guid, ProvidePublisherConfiguration<TEvent>());
+                _busClient.PublishAsync(domainEvent, domainEvent.CorrelationID, ProvidePublisherConfiguration<TEvent>());
             });
         }
 
@@ -71,7 +100,7 @@ namespace Lapiwe.Eventbus
         {
             Task.Factory.StartNew(() => 
             {
-                _busClient.PublishAsync(domainCommand, domainCommand.Guid, ProvidePublisherConfiguration<TCommand>());
+                _busClient.PublishAsync(domainCommand, domainCommand.CorrelationID, ProvidePublisherConfiguration<TCommand>());
             });
         }
 

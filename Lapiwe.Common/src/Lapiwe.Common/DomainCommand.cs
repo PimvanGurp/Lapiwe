@@ -1,18 +1,22 @@
 ﻿using System;
 
-namespace Lapiwe.Common
-{ 
+namespace Minor.WSA.Common.Domain
+{
+    /// <summary>
+    ///     Base class for every domain command
+    ///     holding data that can be generated
+    ///     at command creation and is part of every command
+    /// </summary>
     public abstract class DomainCommand
     {
-        public DateTime TimeStamp { get; set; }
-        public Guid CorrelationID { get; set; }
-        public string RoutingKey { get; set; }
+        public readonly Guid Guid;
+        public readonly DateTime Timestamp;
+        public 
 
         public DomainCommand()
         {
-            TimeStamp = DateTime.Now;
-            CorrelationID = new Guid();
-            RoutingKey = GetType().FullName;
+            Guid = Guid.NewGuid();
+            Timestamp = DateTime.Now;
         }
     }
 }
