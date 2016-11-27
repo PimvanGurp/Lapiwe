@@ -1,4 +1,6 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace Lapiwe.Common
 {
     /// <summary>
@@ -18,6 +20,6 @@ namespace Lapiwe.Common
         /// </summary>
         /// <param name="domainCommand"></param>
         /// <returns></returns>
-        void Handle(TEvent domainEvent);
+        Task Handle(TEvent domainEvent);
     }
 }

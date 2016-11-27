@@ -1,7 +1,7 @@
 {
-  "id":  "Lapiwe.Eventbus",
-  "name": "Lapiwe.Eventbus",
-  "version": "0.2.1",
+  "id":  "Lapiwe.EventbusClient",
+  "name": "Lapiwe.EventbusClient",
+  "version": "0.3.2",
   "description": "An eventbus implementation using RawRabbit on top of RabbitMQ",
   "title": "Lapiwe Eventbus",
 
@@ -12,8 +12,8 @@
   },
 
   "dependencies": {
+    "Lapiwe.Common": "1.1.6",
     "Microsoft.Extensions.Configuration.Json": "1.0.0",
-    "Lapiwe.Common": "1.1.4",
     "NETStandard.Library": "1.6.0",
     "RawRabbit": "1.10.0",
     "RawRabbit.vNext": "1.10.0"

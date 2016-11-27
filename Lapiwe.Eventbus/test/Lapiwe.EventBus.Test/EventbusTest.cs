@@ -1,22 +1,29 @@
-﻿
-using Lapiwe.Common;
+﻿using Lapiwe.Common;
+using Lapiwe.EventbusClient.Test.CommandHandlers;
+using Lapiwe.EventbusClient.Test.Commands;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading;
 
-namespace Lapiwe.EventBus.Test
+namespace Lapiwe.EventbusClient.Test
 {
     [TestClass]
     public class EventbusTest
     {
         [TestMethod]
-        public void EventbusIsIniatilizedWithCorrectDefaultValues()
+        public void EventbusCanPublishAndSubscribeACommand()
         {
             // Arrange
-            IEventbus eventbus = new Eventbus();
+            RegistreerKlantCommandHandler handler = new RegistreerKlantCommandHandler();
+            RegistreerKlantCommand command = new RegistreerKlantCommand("Elon Musk");
 
-            // Act
+            using (IEventbus eventbus = new Eventbus()) {
+                eventbus.Subscribe(handler);
+                eventbus.PublishCommand(command);
 
-            // Assert
+                Thread.Sleep(10);
 
+                Assert.AreEqual(1, handler.TimesCalled);
+            }
         }
     }
 }

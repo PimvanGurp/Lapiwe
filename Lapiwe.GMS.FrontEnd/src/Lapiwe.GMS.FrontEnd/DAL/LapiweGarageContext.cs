@@ -1,5 +1,6 @@
 ﻿
 using Lapiwe.GMS.FrontEnd.Entities;
+using Lapiwe.KlantBeheerService.Export.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lapiwe.GMS.Frontend.DAL
@@ -7,6 +8,7 @@ namespace Lapiwe.GMS.Frontend.DAL
     public class LapiweGarageContext : DbContext
     {
         public DbSet<Bestuurder> Bestuurders { get; set; }
+        //public DbSet<Klant> Klanten { get; set; }
 
         public LapiweGarageContext(DbContextOptions options) : base(options)
         {

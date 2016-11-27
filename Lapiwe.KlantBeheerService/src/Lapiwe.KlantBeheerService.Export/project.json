@@ -1,8 +1,14 @@
 ﻿{
-  "version": "1.0.0-*",
+  "name": "Lapiwe.KlantBeheerService.Export",
+  "version": "0.1.0-*",
+  "description": "Lapiwe klantbeheer export package",
+  "copyright": "Lapiwe",
+  "title": "Lapiwe klantbeheer export package",
 
   "dependencies": {
-    "Minor.WSA.WSAEventbus": "0.1.0",
+    "Lapiwe.Common": "1.1.7",
+    "RawRabbit.vNext": "1.10.2",
+    "RawRabbit": "1.10.2",
     "NETStandard.Library": "1.6.0"
   },
 
@@ -10,5 +16,18 @@
     "netstandard1.6": {
       "imports": "dnxcore50"
     }
+  },
+
+  "packOptions": {
+    "summary": "This is the Lapiwe klant beheer export package",
+    "tags": [ "export" ],
+    "owners": [ "Pim van Gurp", "Lars Celie", "Wesley Seubring" ]
+  },
+
+  "scripts": {
+    "postcompile": [
+      "dotnet pack -o C:\\_localNugetFeed --no-build --configuration %compile:Configuration%"
+    ]
   }
 }
+

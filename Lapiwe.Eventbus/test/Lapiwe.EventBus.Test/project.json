@@ -3,14 +3,14 @@
   "testRunner": "mstest",
 
   "dependencies": {
-    "Lapiwe.Eventbus": "0.2.0",
+    "dotnet-test-mstest": "1.1.2-preview",
+    "Lapiwe.EventbusClient": "0.3.2",
     "Microsoft.NETCore.App": {
       "type": "platform",
       "version": "1.0.1"
     },
-    "dotnet-test-mstest": "1.1.2-preview",
-    "MSTest.TestFramework": "1.0.6-preview",
-    "Moq": "4.6.38-alpha"
+    "Moq": "4.6.38-alpha",
+    "MSTest.TestFramework": "1.0.6-preview"
   },
 
   "frameworks": {

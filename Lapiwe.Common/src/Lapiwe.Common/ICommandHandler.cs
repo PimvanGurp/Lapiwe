@@ -1,4 +1,6 @@
-﻿namespace Lapiwe.Common
+﻿using System.Threading.Tasks;
+
+namespace Lapiwe.Common
 {
     /// <summary>
     ///     Use a handler to listen for a command
@@ -17,14 +19,6 @@
         /// </summary>
         /// <param name="domainCommand"></param>
         /// <returns></returns>
-        void Handle(TRequest domainCommand);
-
-        /// <summary>
-        ///     Add functionality to a triggered command
-        ///     and wait for its response
-        /// </summary>
-        /// <param name="domainCommand"></param>
-        /// <returns></returns>
-        DomainResponse<TResponse> HandleRPC<TResponse>(TRequest domainCommand);
+        Task Handle(TRequest domainCommand);
     }
 }
