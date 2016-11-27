@@ -44,7 +44,7 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
             _eventbus.PublishAsync(command, command.CorrelationID, (config) => {
                 config.WithExchange((exchange) =>
                 {
-                    exchange.WithName("Lapiwe.Eventbus.Default");
+                    exchange.WithName("Lapiwe.Eventbus.Commands");
                     exchange.WithType(ExchangeType.Topic);
                 });
                 config.WithRoutingKey("Lapiwe.FE.RegistreerKlantCommand");

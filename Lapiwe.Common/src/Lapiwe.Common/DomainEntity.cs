@@ -7,10 +7,15 @@ namespace Lapiwe.Common
         public Guid Id { get; set; }
         public ProcessStatus Status { get; private set; }
 
-        public void MarkProcessed()
+        public DomainEntity()
         {
             Id = Guid.NewGuid();
             Status = ProcessStatus.Processing;
+        }
+
+        public void MarkProcessed()
+        {
+            Status = ProcessStatus.Success;
         }
 
         public bool IsProcessed()

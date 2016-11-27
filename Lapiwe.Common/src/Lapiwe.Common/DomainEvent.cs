@@ -11,7 +11,7 @@ namespace Lapiwe.Common
         public DomainEvent()
         {
             TimeStamp = DateTime.Now;
-            CorrelationID = new Guid();
+            CorrelationID = Guid.NewGuid();
             RoutingKey = GetType().FullName;
         }
     }

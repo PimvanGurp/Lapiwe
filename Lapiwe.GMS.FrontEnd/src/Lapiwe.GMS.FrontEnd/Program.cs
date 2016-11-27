@@ -17,6 +17,7 @@ namespace Lapiwe.GMS.FrontEnd
     {
         public static void Main(string[] args)
         {
+
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -25,8 +26,9 @@ namespace Lapiwe.GMS.FrontEnd
                 .Build();
 
             SetupEventSubscribers(host);
-
+            
             host.Run();
+   
         }
 
         private static void SetupEventSubscribers(IWebHost host)
@@ -34,14 +36,15 @@ namespace Lapiwe.GMS.FrontEnd
             IBusClient eventbus = BusClientFactory.CreateDefault();
             var handler = new KlantGeregistreerdEventHandler((LapiweGarageContext) host.Services.GetService(typeof(LapiweGarageContext)));
 
-            //eventbus.SubscribeAsync<KlantGeregistreerdEvent>((request, context) => handler.Handle(request), (config) => {
-            //    config.WithExchange((exchange) =>
-            //    {
-            //        exchange.WithName("Lapiwe.Eventbus.Events");
-            //        exchange.WithType(ExchangeType.Topic);
-            //    });
-            //    config.WithRoutingKey("Lapiwe.FE.KlantGeregistreerdEvent");
-            //});
+            eventbus.SubscribeAsync<KlantGeregistreerdEvent>((request, context) => handler.Handle(request), (config) =>
+            {
+                config.WithExchange((exchange) =>
+                {
+                    exchange.WithName("Lapiwe.Eventbus.Events");
+                    exchange.WithType(ExchangeType.Topic);
+                });
+                config.WithRoutingKey("Lapiwe.FE.KlantGeregistreerdEvent");
+            });
         }
     }
 }

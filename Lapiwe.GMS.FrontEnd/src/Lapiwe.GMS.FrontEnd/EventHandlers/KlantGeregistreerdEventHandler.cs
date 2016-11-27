@@ -24,8 +24,7 @@ namespace Lapiwe.GMS.FrontEnd.EventHandlers
         public async Task Handle(KlantGeregistreerdEvent domainEvent)
         {
             Klant klant = _context.Klanten.FirstOrDefault(k => k.Id == domainEvent.KlantId);
-            klant?.MarkProcessed();
-            klant.Telefoonnummer = "Test succeeded";
+            _context.Klanten.Remove(klant);
             _context.SaveChanges();
         }
     }
