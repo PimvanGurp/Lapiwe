@@ -8,8 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Lapiwe.GMS.Frontend.DAL;
-using Lapiwe.Common;
-using Lapiwe.WSAEventbus;
+using RawRabbit.vNext;
+using RawRabbit.vNext.Disposable;
 
 namespace Lapiwe.GMS.FrontEnd
 {
@@ -39,7 +39,7 @@ namespace Lapiwe.GMS.FrontEnd
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddDbContext<LapiweGarageContext>(ServiceLifetime.Scoped);
-            services.AddScoped<IEventbus, Eventbus>();
+            services.AddScoped((serviceProvider) => BusClientFactory.CreateDefault());
             services.AddMvc();
         }
 
@@ -69,7 +69,7 @@ namespace Lapiwe.GMS.FrontEnd
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Klanten}/{action=RegistratieOverzicht}/{id?}");
             });
         }
     }

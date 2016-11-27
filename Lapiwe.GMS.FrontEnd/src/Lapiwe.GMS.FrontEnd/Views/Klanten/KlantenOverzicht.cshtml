@@ -1,0 +1,45 @@
+﻿@model Lapiwe.GMS.FrontEnd.ViewModels.KlantenLijstViewModel
+
+<div style="margin-top:20px">
+    <h1 style="float:left; margin-top:0px;">Klantenoverzicht</h1>
+    <a class="btn btn-success" style="float:right; margin-top:10px"
+        asp-controller="Klanten"
+        asp-action="RegistratieOverzicht">
+        Klant toevoegen
+    </a>
+</div>
+<div style="clear:both; margin-bottom:10px"></div>
+
+<div class="row">
+    @foreach (var klant in Model.Klanten)
+    {
+        <div class="col-sm-6 col-lg-4">
+            <div class="panel panel-@(klant.IsProcessed() ? "primary" : "default")">
+                <div class="panel-heading">
+                    @if (klant.IsProcessing())
+                    {
+                        <p style="float:right; font-style:italic">Deze klant wordt verwerkt</p>
+                    }
+                    <h3 class="panel-title">@klant.FullName()</h3>
+                </div>
+                <div class="panel-body">
+                    <i class="fa fa-phone"> @klant.Telefoonnummer</i>
+                    <br />
+                    <i class="fa fa-envelope-o"> @klant.Emailadres</i>
+                    <br />
+                    <br />
+                    <div style="float:left">
+                        <i class="fa fa-home"> @klant.Adres</i>
+                        <br />
+                        <i class="fa fa-map-marker"> @klant.Postcode, @klant.Woonplaats</i>
+                        <br />
+                    </div>
+                    @if (false /*Feature flag UC05*/)
+                    {
+                        <button type="button" class="btn btn-primary btn-circle"><i class="fa fa-pencil fa-lg"></i></button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

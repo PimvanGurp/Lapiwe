@@ -1,0 +1,25 @@
+﻿<h1>Nieuwe klanten registreren</h1>
+<form asp-action="RegistreerKlant" asp-controller="Klanten">
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="klant-voornaam">Naam:</label>
+            <input type="text" class="form-control" id="klant-voornaam" name="voornaam" placeholder="Voornaam">
+            <input type="text" class="form-control" id="klant-tussenvoegsel" name="tussenvoegsel" placeholder="Tussenvoegsel">
+            <input type="text" class="form-control" id="klant-achternaam" name="achternaam" placeholder="Achternaam">
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="klant-voornaam">Adresgegevens:</label>
+            <input type="text" class="form-control" id="klant-adres" name="adres" placeholder="Adres">
+            <input type="text" class="form-control" id="klant-postcode" name="postcode" placeholder="Postcode">
+            <input type="text" class="form-control" id="klant-woonplaats" name="woonplaats" placeholder="Woonplaats">
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="klant-voornaam">Contactgegevens:</label>
+            <input type="text" class="form-control" id="klant-telefoonnummer" name="telefoonnummer" placeholder="Telefoonnummer">
+            <input type="text" class="form-control" id="klant-mail" name="emailadres" placeholder="Mail">
+        </div>
+        <div class="form-group col-sm-6">
+            <button type="submit" class="btn btn-primary">Registreren!</button>
+        </div>
+    </div>
+</form>

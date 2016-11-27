@@ -11,10 +11,8 @@ namespace Lapiwe.KlantBeheerService.Facade
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Setting up subscribers");
             SetupCommandSubscribers();
-            Console.WriteLine("Subscribers setup");
-
+         
             Console.ReadKey();
         }
 
@@ -23,10 +21,11 @@ namespace Lapiwe.KlantBeheerService.Facade
             IBusClient eventbus = BusClientFactory.CreateDefault();
             var handler = new RegistreerKlantCommandHandler();
 
-            eventbus.SubscribeAsync<RegistreerKlantCommand>((request, context) => handler.Handle(request), (config) => {
+            eventbus.SubscribeAsync<RegistreerKlantCommand>((request, context) => handler.Handle(request), (config) =>
+            {
                 config.WithExchange((exchange) =>
                 {
-                    exchange.WithName("Lapiwe.Eventbus.Default");
+                    exchange.WithName("Lapiwe.Eventbus.Commands");
                     exchange.WithType(ExchangeType.Topic);
                 });
                 config.WithRoutingKey("Lapiwe.FE.RegistreerKlantCommand");

@@ -1,24 +1,23 @@
 ﻿using Lapiwe.Common;
 using Lapiwe.GMS.Frontend.DAL;
-using Lapiwe.GMS.FrontEnd.Entities;
-using Lapiwe.GMS.FrontEnd.Export.Commands;
 using Lapiwe.GMS.FrontEnd.ViewModels;
 using Lapiwe.KlantBeheerService.Export.Commands;
 using Lapiwe.KlantBeheerService.Export.Entities;
 using Microsoft.AspNetCore.Mvc;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.vNext;
+using RawRabbit.vNext.Disposable;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Lapiwe.GMS.FrontEnd.Controllers
 {
-    public class BestuurdersController : Controller
+    public class KlantenController : Controller
     {
         private LapiweGarageContext _context;
-        private IEventbus _eventbus;
+        private IBusClient _eventbus;
 
-        public BestuurdersController(LapiweGarageContext context, IEventbus eventbus)
+        public KlantenController(LapiweGarageContext context, IBusClient eventbus)
         {
             _context  = context;
             _eventbus = eventbus;
@@ -29,20 +28,20 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
             return View();
         }
 
-        public IActionResult BestuurdersOverzicht()
+        public IActionResult KlantenOverzicht()
         {
-            IEnumerable<Bestuurder> bestuurders = _context.Bestuurders.ToList();
-            BestuurdersLijstViewModel alleBestuurders = new BestuurdersLijstViewModel(bestuurders);
+            IEnumerable<Klant> klanten = _context.Klanten.ToList();
+            KlantenLijstViewModel alleKlanten = new KlantenLijstViewModel(klanten);
 
-            return View(alleBestuurders);
+            return View(alleKlanten);
         }
 
         [HttpPost]
-        public IActionResult RegistreerBestuurder(Bestuurder bestuurder)
+        public IActionResult RegistreerKlant(Klant klant)
         {
-            var busClient = BusClientFactory.CreateDefault();
-            var command = new RegistreerKlantCommand(new Klant());
-            busClient.PublishAsync(command, command.CorrelationID, (config) => {
+            RegistreerKlantCommand command = new RegistreerKlantCommand(klant);
+
+            _eventbus.PublishAsync(command, command.CorrelationID, (config) => {
                 config.WithExchange((exchange) =>
                 {
                     exchange.WithName("Lapiwe.Eventbus.Default");
@@ -51,10 +50,10 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
                 config.WithRoutingKey("Lapiwe.FE.RegistreerKlantCommand");
             });
 
-            //_context.Klanten.Add(klant);
-            //_context.SaveChanges();
+            _context.Klanten.Add(klant);
+            _context.SaveChanges();
 
-            return RedirectToAction("BestuurdersOverzicht");
+            return RedirectToAction("KlantenOverzicht");
         }
     }
 }

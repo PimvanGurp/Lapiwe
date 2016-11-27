@@ -24,7 +24,7 @@ namespace Lapiwe.KlantBeheerService.DomainServices.CommandHandlers
             await _eventbus.PublishAsync(domainEvent, domainEvent.CorrelationID, (config) => {
                 config.WithExchange((exchange) =>
                 {
-                    exchange.WithName("Lapiwe.Eventbus.Default");
+                    exchange.WithName("Lapiwe.Eventbus.Events");
                     exchange.WithType(ExchangeType.Topic);
                 });
                 config.WithRoutingKey("Lapiwe.FE.KlantGeregistreerdEvent");
