@@ -19,5 +19,11 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult KlanDetails(int id)
+        {
+            return null;
+        }
     }
 }

@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Lapiwe.IS.RDW", "src\Lapiwe.IS.RDW\Lapiwe.IS.RDW.xproj", "{01292BE0-7543-4EC4-85B9-65E541FB264B}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Lapiwe.IS.RDW.Export", "src\Lapiwe.IS.RDW.Export\Lapiwe.IS.RDW.Export.xproj", "{8CF867CF-0297-456B-83A2-406C8F5ED93C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +24,16 @@ Global
 		{01292BE0-7543-4EC4-85B9-65E541FB264B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01292BE0-7543-4EC4-85B9-65E541FB264B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01292BE0-7543-4EC4-85B9-65E541FB264B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF867CF-0297-456B-83A2-406C8F5ED93C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF867CF-0297-456B-83A2-406C8F5ED93C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF867CF-0297-456B-83A2-406C8F5ED93C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF867CF-0297-456B-83A2-406C8F5ED93C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{01292BE0-7543-4EC4-85B9-65E541FB264B} = {2DDDE717-9214-47D8-B723-1C9E68691C8A}
+		{8CF867CF-0297-456B-83A2-406C8F5ED93C} = {2DDDE717-9214-47D8-B723-1C9E68691C8A}
 	EndGlobalSection
 EndGlobal
