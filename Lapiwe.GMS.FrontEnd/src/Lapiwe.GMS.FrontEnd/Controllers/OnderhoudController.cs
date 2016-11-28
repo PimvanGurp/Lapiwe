@@ -19,7 +19,7 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
         }
 
         [HttpGet]
-        public IActionResult AutoKlaarmeldenOverzicht()
+        public IActionResult Index()
         {
             return View();
         }
