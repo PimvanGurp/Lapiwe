@@ -6,7 +6,7 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>9ff38097-48fb-41d5-83c8-b1c93772a2ce</ProjectGuid>
+    <ProjectGuid>d2055d70-934b-496d-a89e-163ae9187101</ProjectGuid>
     <RootNamespace>Lapiwe.OnderhoudService.Facade</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
