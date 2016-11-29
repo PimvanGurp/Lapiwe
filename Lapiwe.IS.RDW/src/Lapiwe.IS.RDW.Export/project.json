@@ -10,19 +10,16 @@
     "NETStandard.Library": "1.6.0",
     "Lapiwe.Common": "1.2.0"
   },
-
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50"
     }
   },
-
   "packOptions": {
-    "summary": "This is the Lapiwe klant beheer export package",
-    "tags": [ "export" ],
+    "summary": "This is the Lapiwe Export package",
+    "tags": [ "Export", "RDW" ],
     "owners": [ "Pim van Gurp", "Lars Celie", "Wesley Seubring" ]
   },
-
   "scripts": {
     "postcompile": [
       "dotnet pack -o C:\\_localNugetFeed --no-build --configuration %compile:Configuration%"
