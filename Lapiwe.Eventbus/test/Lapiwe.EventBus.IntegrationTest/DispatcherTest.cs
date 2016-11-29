@@ -1,4 +1,5 @@
 ﻿using Lapiwe.EventBus.Common;
+using Lapiwe.EventBus.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,11 @@ namespace Minor.WSA.EventBus.IntegrationTest
         [TestMethod]
         public void Dispatcher_DuplicateMethodWithParameterName()
         {
+
             // Arrange
-            Action act = () => new TestDispatcherWithDuplicateParameters();
+            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
+
+            Action act = () => new TestDispatcherWithDuplicateParameters(options);
 
             Assert.ThrowsException<DuplicateMethodWithSameEventParameterException>(act);
         }

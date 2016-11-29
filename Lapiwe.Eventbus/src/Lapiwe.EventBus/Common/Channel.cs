@@ -23,6 +23,8 @@ namespace Lapiwe.EventBus.Common
                 UserName = busOptions.Username,
                 Password = busOptions.Password,
                 Port = busOptions.Port,
+                VirtualHost = "/",
+                RequestedHeartbeat = 60
             };
             _connection = factory.CreateConnection();
             _model = _connection.CreateModel();

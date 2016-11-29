@@ -16,7 +16,7 @@ namespace Minor.WSA.EventBus.IntegrationTest
         [TestMethod]
         public void PublishedTestEvent()
         {
-            var options = new BusOptions { ExchangeName = "TestExchange1" };
+            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
             using (var consumer = new TestDispatcher(options))
             using (var target = new EventPublisher(options))
             {
@@ -32,7 +32,7 @@ namespace Minor.WSA.EventBus.IntegrationTest
         [TestMethod]
         public void PublishedTestEventTwice()
         {
-            var options = new BusOptions { ExchangeName = "TestExchange2" };
+            var options = new BusOptions { ExchangeName = "TestExchange2", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
             using (var consumer = new TestDispatcher(options))
             using (var target = new EventPublisher(options))
             {
@@ -49,7 +49,7 @@ namespace Minor.WSA.EventBus.IntegrationTest
         [TestMethod]
         public void PublishedTestEventReceivedByTwoDispatchers()
         {
-            var options = new BusOptions { ExchangeName = "TestExchange3" };
+            var options = new BusOptions { ExchangeName = "TestExchange3", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
             using (var consumer1 = new TestDispatcher(options))
             using (var consumer2 = new TestDispatcher(options))
             using (var target = new EventPublisher(options))
@@ -67,7 +67,7 @@ namespace Minor.WSA.EventBus.IntegrationTest
         [TestMethod]
         public void PublishedTestEventIsNotReceivedByOtherRoutingKey()
         {
-            var options = new BusOptions { ExchangeName = "TestExchange4" };
+            var options = new BusOptions { ExchangeName = "TestExchange4", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
             using (var consumer = new TestDispatcherAttribute(options))
             using (var target = new EventPublisher(options))
             {
@@ -83,7 +83,7 @@ namespace Minor.WSA.EventBus.IntegrationTest
         [TestMethod]
         public void PublishedTestEventIsReceivedByOtherRoutingKey()
         {
-            var options = new BusOptions { ExchangeName = "TestExchange5" };
+            var options = new BusOptions { ExchangeName = "TestExchange5", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
             using (var consumer = new TestDispatcherAttribute(options))
             using (var target = new EventPublisher(options))
             {
@@ -99,7 +99,7 @@ namespace Minor.WSA.EventBus.IntegrationTest
         [TestMethod]
         public void PublishedTestEventMultiple()
         {
-            var options = new BusOptions { ExchangeName = "TestExchange6" };
+            var options = new BusOptions { ExchangeName = "TestExchange6", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
             using (var consumer = new TestDispatcher(options))
             using (var consumerAttribute = new TestDispatcherWithoutOtherEvent(options))
             using (var target = new EventPublisher(options))
@@ -120,8 +120,10 @@ namespace Minor.WSA.EventBus.IntegrationTest
         [TestMethod]
         public void DispatcherUsesBusOptionsAttribute()
         {
-            using (var consumer = new TestDispatcherBusOptionsAttribute())            
-            using (var target = new TestPublisherAttr())
+            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
+
+            using (var consumer = new TestDispatcherBusOptionsAttribute(options))            
+            using (var target = new TestPublisherAttr(options))
             {
                 target.Publish(new TestEvent());
 
