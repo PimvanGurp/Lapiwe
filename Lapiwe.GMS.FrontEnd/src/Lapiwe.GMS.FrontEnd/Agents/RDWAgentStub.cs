@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Lapiwe.GMS.FrontEnd.Agents
 {
-    public class OnderhoudAgentStub : IOnderhoudAgent
+    public class RDWAgentStub : IRDWAgent
     {
         public IActionResult KeuringsVerzoek(string klantnaam, string kenteken, int kilometerstand)
         {

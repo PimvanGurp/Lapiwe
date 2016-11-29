@@ -19,7 +19,9 @@ namespace Lapiwe.GMS.FrontEnd.Dispatchers
 
         public void KeuringsVerzoekVerwerktZonderSteekproef(KeuringsVerzoekVerwerktZonderSteekproefEvent domainEvent)
         {
-            KeuringsVerzoek verzoek = new KeuringsVerzoek();
+            KeuringsVerzoek verzoek = new KeuringsVerzoek(
+                telf    
+            );
             // Vind onderhoud
             // Markeer als klaar
         }

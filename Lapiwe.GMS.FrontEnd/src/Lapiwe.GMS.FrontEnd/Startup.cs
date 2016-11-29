@@ -44,7 +44,7 @@ namespace Lapiwe.GMS.FrontEnd
             services.AddDbContext<FrontendContext>(ServiceLifetime.Scoped);
 
             //Replace with real agent
-            services.AddScoped<IOnderhoudAgent, OnderhoudAgentStub>();
+            services.AddScoped<IRDWAgent, RDWAgentStub>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
