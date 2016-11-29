@@ -1,6 +1,6 @@
 {
   "name": "Lapiwe.EventBus",
-  "version": "1.0.1-*",
+  "version": "1.0.3-*",
   "description": "An event bus for publishing and dispatching events",
   "title": "Lapiwe EventBus",
 

@@ -57,6 +57,7 @@ namespace Lapiwe.EventBus.Dispatchers
                         }
                         catch (ArgumentException)
                         {
+                            Dispose();
                             throw new DuplicateMethodWithSameEventParameterException(method.ToString());
                         }
                     }
