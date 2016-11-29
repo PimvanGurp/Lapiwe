@@ -1,15 +1,18 @@
 version: '2'
 
 services:
-    rabbitmq:
-        image: rabbitmq:3-management
-        container_name: rabbitmq
-        ports:
-            - 5673:5672
-            - 12345:15672
-            - 8080:8080
-        networks: 
-            - eventbus-network
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: Lapiwe
+      RABBITMQ_DEFAULT_PASS: Lapiwe123
+    ports:
+      - 5700:5672
+      - 12345:15672
+      - 8080:8080
+    networks: 
+      - eventbus-network
 
 networks:
   eventbus-network:
