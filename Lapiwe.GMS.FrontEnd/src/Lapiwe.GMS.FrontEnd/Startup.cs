@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Lapiwe.GMS.FrontEnd.ViewModels;
+using Lapiwe.GMS.FrontEnd.Agents;
+using Lapiwe.GMS.FrontEnd.DAL;
 
 namespace Lapiwe.GMS.FrontEnd
 {
@@ -37,6 +40,11 @@ namespace Lapiwe.GMS.FrontEnd
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+
+            services.AddDbContext<FrontendContext>(ServiceLifetime.Scoped);
+
+            //Replace with real agent
+            services.AddScoped<IOnderhoudAgent, OnderhoudAgentStub>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +73,7 @@ namespace Lapiwe.GMS.FrontEnd
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Onderhoud}/{action=Index}/{id?}");
             });
         }
     }
