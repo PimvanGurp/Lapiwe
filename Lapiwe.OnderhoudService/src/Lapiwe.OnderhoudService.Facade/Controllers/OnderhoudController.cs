@@ -1,8 +1,10 @@
 ﻿
+using Lapiwe.Common.Domain;
 using Lapiwe.Common.Infastructure;
 using Lapiwe.OnderhoudService.Export;
 using Lapiwe.OnderhoudService.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Lapiwe.OnderhoudService.Facade.Controllers
 {
@@ -20,9 +22,16 @@ namespace Lapiwe.OnderhoudService.Facade.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]RegisteerOnderhoudOpdrachtCommand value)
+        [ProducesResponseType(typeof(OkResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FunctionalError), (int)HttpStatusCode.BadRequest)]
+        public IActionResult Post([FromBody]RegisteerOnderhoudOpdrachtCommand command)
         {
+            if (ModelState.IsValid && command != null)
+            {
+                return Ok();
+            }
 
+            return BadRequest();
         }
     }
 

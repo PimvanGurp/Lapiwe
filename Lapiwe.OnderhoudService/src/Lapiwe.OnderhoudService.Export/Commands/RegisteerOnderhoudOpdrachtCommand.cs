@@ -8,11 +8,10 @@ namespace Lapiwe.OnderhoudService.Export
 {
     public class RegisteerOnderhoudOpdrachtCommand : DomainCommand
     {
-        public Guid OnderhoudsOpdrachtGuid { get; set; }
-
-        public RegisteerOnderhoudOpdrachtCommand(Guid onderhoudsGuid)
-        {
-            OnderhoudsOpdrachtGuid = onderhoudsGuid;
-        }
+        public Guid KlantGuid { get; set; }
+        public Guid AutoGuid { get; set; }
+        public DateTime AanmeldDatum { get; set; }
+        public int Kilometerstand { get; set; }
+        public string OpdrachtOmschrijving { get; set; }
     }
 }
