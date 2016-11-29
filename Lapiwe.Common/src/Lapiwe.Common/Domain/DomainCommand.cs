@@ -13,7 +13,7 @@ namespace Lapiwe.Common.Domain
         public DomainCommand()
         {
             TimeStamp = DateTime.Now;
-            CorrelationID = new Guid();
+            CorrelationID = Guid.NewGuid();
         }
     }
 }
