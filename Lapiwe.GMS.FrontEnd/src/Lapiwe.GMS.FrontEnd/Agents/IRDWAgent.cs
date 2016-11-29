@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Lapiwe.GMS.FrontEnd.Agents
 {
-    public interface IOnderhoudAgent
+    public interface IRDWAgent
     {
-        IActionResult MeldAutoKlaar(string klantnaam, string kenteken, int kilometerstand); 
+        IActionResult KeuringsVerzoek(KeuringsVerzoekCommand domainCommand); 
     }
 }

@@ -11,9 +11,9 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
 {
     public class OnderhoudController : Controller
     {
-        private IOnderhoudAgent _agent;
+        private IRDWAgent _agent;
 
-        public OnderhoudController(IOnderhoudAgent agent)
+        public OnderhoudController(IRDWAgent agent)
         {
             _agent = agent;
         }
@@ -25,11 +25,13 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult MeldAutoKlaar(string voorletter, string achternaam, string kenteken, string kilometerstand)
+        public IActionResult KeuringsVerzoek(string voornaam, string tussenvoegsel, string achternaam, string kenteken, string kilometerstand)
         {
-            string volledigeNaam = $"{voorletter}. {achternaam}";
+            string volledigeNaam = $"{voornaam.First()}. {tussenvoegsel} {achternaam}";
 
-            _agent.MeldAutoKlaar(volledigeNaam, kenteken, int.Parse(kilometerstand));
+            //KeuringsVerzoekCommand command = new KeuringsVerzoekCommand(volledigeNaam, kenteken, kilometerstand);
+
+            _agent.KeuringsVerzoek(null /*command*/);
 
             return View();
         }

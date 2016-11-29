@@ -9,7 +9,7 @@ namespace Lapiwe.GMS.FrontEnd.Agents
 {
     public class OnderhoudAgentStub : IOnderhoudAgent
     {
-        public IActionResult MeldAutoKlaar(string klantnaam, string kenteken, int kilometerstand)
+        public IActionResult KeuringsVerzoek(string klantnaam, string kenteken, int kilometerstand)
         {
             return new OkResult();
         }

@@ -17,13 +17,14 @@ namespace Lapiwe.GMS.FrontEnd.Dispatchers
             _context = context;
         }
 
-        public void AutoKlaargemeld(AutoKlaargemeldEvent domainEvent)
+        public void KeuringsVerzoekVerwerktZonderSteekproef(KeuringsVerzoekVerwerktZonderSteekproefEvent domainEvent)
         {
+            KeuringsVerzoek verzoek = new KeuringsVerzoek();
             // Vind onderhoud
             // Markeer als klaar
         }
 
-        public void AutoGekozenVoorSteekProef(AutoGekozenVoorSteekProefEvent domainEvent)
+        public void KeuringsVerzoekVerwerktMetSteekproef(KeuringsVerzoekVerwerktMetSteekproefEvent domainEvent)
         {
             // Geef steekproef aan op onderhoud
         }

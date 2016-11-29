@@ -1,28 +1,21 @@
-﻿<h1 style="text-align:center">Overzicht van onderhoudsopdrachten</h1>
-
-<!-- About Me Box -->
-<div class="col-md-4">
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title">48-HLX-2 (Test Data)</h3><br />
-            <small>Ford Focus</small>
+﻿<h1>Meld auto klaar</h1>
+<form class="form-horizontal" asp-action="MeldAutoKlaar" asp-controller="Onderhoud" method="post">
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="klant-voorletter">Klantnaam:</label>
+            <input type="text" class="form-control" id="klant-voorletter" name="voornaam" placeholder="Voornaam">
+            <input type="text" class="form-control" id="klant-voorletter" name="tussenvoegsel" placeholder="Tussenvoegsel">
+            <input type="text" class="form-control" id="klant-achternaam" name="achternaam" placeholder="Achternaam">
         </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <strong><i class="fa fa-user margin-r-5"></i> Eigenaar</strong>
-
-            <p class="text-muted">
-                Tony Hsieh
-            </p>
-
-            <hr>
-
-            <strong><i class="fa fa-dashboard margin-r-5"></i> Kilometerstand</strong>
-
-            <p class="text-muted">4.238 km</p>
-
+        <div class="form-group col-sm-6">
+            <label for="auto-kenteken">Kenteken auto:</label>
+            <input type="text" class="form-control" id="auto-kenteken" name="kenteken" placeholder="Kenteken">
+            <br />
+            <label for="auto-kilometerstand">Kilometerstand:</label>
+            <input type="text" class="form-control" id="auto-kilometerstand" name="kilometerstand" placeholder="Kilometerstand">
         </div>
-        <!-- /.box-body -->
+        <div class="form-group col-sm-6">
+            <button type="submit" class="btn btn-primary">Klaar melden</button>
+        </div>
     </div>
-    <!-- /.box -->
-</div>
+</form>

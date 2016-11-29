@@ -10,7 +10,7 @@ namespace Lapiwe.GMS.FrontEnd.Entities
     {
         [Key]
         public long ID { get; set; }
-        public Guid Guid { get; set; }
+        public Guid Guid { get; set; } 
         public string Kenteken { get; set; }
 
         public OnderhoudsOpdracht()
