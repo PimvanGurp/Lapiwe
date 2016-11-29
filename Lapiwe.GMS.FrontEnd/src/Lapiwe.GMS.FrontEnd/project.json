@@ -25,7 +25,8 @@
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Lapiwe.EventBus": "1.0.1",
     "SapientGuardian.EntityFrameworkCore.MySql": "7.1.14",
-    "Lapiwe.IS.RDW.Export": "0.1.1"
+    "Lapiwe.IS.RDW.Export": "0.1.1",
+    "MySql.Data.EntityFrameworkCore": "7.0.6-IR31"
   },
   "tools": {
     "BundlerMinifier.Core": "2.0.238",
