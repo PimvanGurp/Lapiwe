@@ -1,5 +1,5 @@
 ﻿<h1>Meld auto klaar</h1>
-<form class="form-horizontal" asp-action="MeldAutoKlaar" asp-controller="Onderhoud" method="post">
+<form class="" asp-action="Versturen" asp-controller="KeuringsVerzoek" method="post">
     <div class="row">
         <div class="form-group col-sm-6">
             <label for="klant-voorletter">Klantnaam:</label>
@@ -12,7 +12,7 @@
             <input type="text" class="form-control" id="auto-kenteken" name="kenteken" placeholder="Kenteken">
             <br />
             <label for="auto-kilometerstand">Kilometerstand:</label>
-            <input type="text" class="form-control" id="auto-kilometerstand" name="kilometerstand" placeholder="Kilometerstand">
+            <input type="number" class="form-control" id="auto-kilometerstand" name="kilometerstand" placeholder="Kilometerstand">
         </div>
         <div class="form-group col-sm-6">
             <button type="submit" class="btn btn-primary">Klaar melden</button>

@@ -73,7 +73,7 @@ namespace Lapiwe.GMS.FrontEnd
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Onderhoud}/{action=Index}/{id?}");
+                    template: "{controller=KeuringsVerzoek}/{action=Overzicht}/{id?}");
             });
         }
     }
