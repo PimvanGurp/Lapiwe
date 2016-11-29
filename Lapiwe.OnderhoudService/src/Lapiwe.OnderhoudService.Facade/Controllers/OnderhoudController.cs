@@ -4,6 +4,7 @@ using Lapiwe.Common.Infastructure;
 using Lapiwe.OnderhoudService.Export;
 using Lapiwe.OnderhoudService.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Lapiwe.OnderhoudService.Facade.Controllers
@@ -18,6 +19,12 @@ namespace Lapiwe.OnderhoudService.Facade.Controllers
         {
             repository = repo;
             publisher = pub;
+        }
+
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new List<string>() { "Get", "Success"};
         }
 
         // POST api/values
