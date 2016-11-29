@@ -17,6 +17,13 @@ namespace Minor.WSA.Audit.Test
     [TestClass]
     public class AuditDispatcherTest
     {
+        private BusOptions options;
+
+        [TestInitialize]
+        public void Init()
+        {
+            options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
+        }
 
         [TestMethod]
         public void AuditDispatcherCallsCorrectMethods()
@@ -32,12 +39,12 @@ namespace Minor.WSA.Audit.Test
             var pubMock = new Mock<IPublisher>(MockBehavior.Strict);
             pubMock.Setup(pub => pub.Publish(It.IsAny<string>(), It.IsAny<SerializedEvent>()));
 
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
+            options.ExchangeName = "TestExchange1";
 
             using (var target = new AuditDispatcher(repoMock.Object, pubMock.Object, options))
             {
                 // Act
-                var command = new SendAllEventCommand { routingKeyAddress = "Test.QueueName", StartTime = DateTime.MinValue, EndTime = DateTime.MaxValue};
+                var command = new SendAllEventCommand { returnQueueName = "Test.QueueName", StartTime = DateTime.MinValue, EndTime = DateTime.MaxValue};
                 target.OnReceived(command);
 
                 // Assert
@@ -60,12 +67,12 @@ namespace Minor.WSA.Audit.Test
             var pubMock = new Mock<IPublisher>(MockBehavior.Strict);
             pubMock.Setup(pub => pub.Publish(It.IsAny<string>(), It.IsAny<SerializedEvent>()));
 
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
+            options.ExchangeName = "TestExchange2";
 
             using (var target = new AuditDispatcher(repoMock.Object, pubMock.Object, options))
             {
                 // Act
-                var command = new SendAllEventCommand { routingKeyAddress = "Test.QueueName", StartTime = DateTime.MinValue, EndTime = DateTime.MaxValue };
+                var command = new SendAllEventCommand { returnQueueName = "Test.QueueName", StartTime = DateTime.MinValue, EndTime = DateTime.MaxValue };
                 target.OnReceived(command);
 
                 // Assert
@@ -78,7 +85,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_correctMatch()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -97,7 +103,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_IncorrectMatch()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -116,7 +121,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_correctMatchWithDots()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -135,7 +139,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_correctMatchWithStarWildcard()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -154,7 +157,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_correctMatchWithStarWildcardAndTrailingText()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -173,7 +175,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_IncorrectMatchWithStarWildcardAndTrailingText()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -192,7 +193,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_IncorrectMatchWithStarWildcardMultipleLevels()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -211,7 +211,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_CorrectMatchWithHashWildcard()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -230,7 +229,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_CorrectMatchWithHashWildcardTwoLevels()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -249,7 +247,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_CorrectMatchWithHashWildcardThreeLevels()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -268,7 +265,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_CorrectMatchWithHashWildcardThreeLevelsWithLeadingText()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -287,7 +283,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_CorrectMatchWithHashWildcardFourLevelsWithLeadingAndTrailingText()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -306,7 +301,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_IncorrectMatchWithHashWildcardThreeLevelsWithLeadingText()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {
@@ -325,7 +319,6 @@ namespace Minor.WSA.Audit.Test
         public void AuditDispatcher_isRoutingkeyMatch_IncorrectMatchWithHashWildcardThreeLevelsWithTrailingText()
         {
             // Arrange
-            var options = new BusOptions { ExchangeName = "TestExchange1", HostName = "Localhost", Port = 5672, Username = "guest", Password = "guest" };
 
             using (var target = new AuditDispatcher(null, null, options))
             {

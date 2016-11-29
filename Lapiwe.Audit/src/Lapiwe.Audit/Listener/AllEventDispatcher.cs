@@ -11,6 +11,7 @@ namespace Lapiwe.Audit.Listener
     public class AllEventDispatcher : EventDispatcher
     {
         private IRepository _repo;
+
         public AllEventDispatcher(IRepository repo, BusOptions options = null) : base(options)
         {
             _repo = repo;

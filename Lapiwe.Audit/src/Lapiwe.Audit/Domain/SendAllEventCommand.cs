@@ -7,7 +7,7 @@ namespace Lapiwe.Audit.Domain
     {
         public DateTime? StartTime;
         public DateTime? EndTime;
-        public string routingKeyAddress;
+        public string returnQueueName;
     }
 
 }

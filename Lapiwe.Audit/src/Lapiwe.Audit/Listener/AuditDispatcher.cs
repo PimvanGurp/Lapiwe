@@ -24,11 +24,14 @@ namespace Lapiwe.Audit.Listener
 
         public void OnReceived(SendAllEventCommand command)
         {
-            var results = _repository.FindBy(s => s.TimeReceived >= command.StartTime && s.TimeReceived <= command.EndTime && isRoutingKeyMatch(command.RoutingKey, s.RoutingKey));
+            var results = _repository.FindBy(s => s.TimeReceived >= command.StartTime 
+                                            && s.TimeReceived <= command.EndTime 
+                                            && isRoutingKeyMatch(command.RoutingKey, s.RoutingKey)
+                                            );
             var orderedResult = results.OrderBy(s => s.TimeReceived);
             foreach (var serializedEvent in orderedResult)
             {
-                _publisher.Publish(command.routingKeyAddress, serializedEvent);
+                _publisher.Publish(command.returnQueueName, serializedEvent);
             }
             
         }

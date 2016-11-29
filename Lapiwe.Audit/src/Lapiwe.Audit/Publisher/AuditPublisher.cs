@@ -10,12 +10,10 @@ namespace Lapiwe.Audit.Publisher
     {
         private IModel _model;
         private IConnection _connection;
-        private BusOptions _busOptions;
 
         public AuditPublisher(BusOptions options = null)
         {
             var busOptions = options ?? new BusOptions();
-            _busOptions = busOptions;
             ConnectionFactory factory = new ConnectionFactory
             {
                 HostName = busOptions.HostName,
