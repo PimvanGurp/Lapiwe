@@ -13,7 +13,7 @@
     "MSTest.TestFramework": "1.0.7-preview",
     "dotnet-test-mstest": "1.1.2-preview",
     "Lapiwe.IS.RDW": "1.0.0-*",
-    "Lapiwe.IS.RDW.Export": "0.5.1-*"
+    "Lapiwe.IS.RDW.Export": "1.0.0-*"
   },
 
   "frameworks": {

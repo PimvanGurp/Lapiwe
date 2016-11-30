@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 6050:80
+      - 6060:80
     links:
       - is-rdw-db:db
     networks:
@@ -24,7 +24,7 @@ services:
       MYSQL_DATABASE: is-rdw-db
       MYSQL_ROOT_PASSWORD: 12344321
     ports:
-      - 6052:3306
+      - 6062:3306
     networks:
       - eventbus-network
 
@@ -34,7 +34,7 @@ services:
     links:
       - is-rdw-db:db
     ports:
-      - 6051:80
+      - 6061:80
     networks: 
       - eventbus-network
 

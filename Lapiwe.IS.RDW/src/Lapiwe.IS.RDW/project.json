@@ -18,8 +18,8 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.EntityFrameworkCore": "1.0.1",
     "SapientGuardian.EntityFrameworkCore.MySql": "7.1.14",
-    "Lapiwe.EventBus": "1.0.4",
-    "Lapiwe.IS.RDW.Export": "0.5.1-*",
+    "Lapiwe.EventBus": "1.0.5",
+    "Lapiwe.IS.RDW.Export": "1.0.0-*",
     "System.Xml.XmlSerializer": "4.0.11",
     "Swashbuckle": "6.0.0-beta902"
   },

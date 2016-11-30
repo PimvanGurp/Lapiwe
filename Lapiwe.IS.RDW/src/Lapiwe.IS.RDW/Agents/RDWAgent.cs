@@ -25,7 +25,5 @@ namespace Lapiwe.IS.RDW.Agents
                 return stringResponse;
             }
         }
-
-       
     }
 }
