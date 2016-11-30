@@ -9,5 +9,7 @@ namespace Lapiwe.IS.RDW.Export.Events
     public class KeuringVerwerktMetSteekproefEvent : DomainEvent
     {
         public Guid OnderhoudsGuid{ get; set; }
+        public DateTime SteefproefDatum{ get; set; }
+        public DateTime Keuringsdatum{ get; set; }
     }
 }

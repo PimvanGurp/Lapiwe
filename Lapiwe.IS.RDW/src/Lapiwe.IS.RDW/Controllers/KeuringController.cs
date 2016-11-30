@@ -75,17 +75,20 @@ namespace Lapiwe.IS.RDW.Controllers
                     _publisher.Publish(new KeuringVerwerktZonderSteekproefEvent()
                     {
                         OnderhoudsGuid = keuringsVerzoekCommand.OnderhoudsGuid,
+                        Keuringsdatum = keuringsregistratie.keuringsdatum
                     });
                 }
                 else if (isSteekproef)
                 {
                     _publisher.Publish(new KeuringVerwerktMetSteekproefEvent()
                     {
-                        OnderhoudsGuid = keuringsVerzoekCommand.OnderhoudsGuid
+                        OnderhoudsGuid = keuringsVerzoekCommand.OnderhoudsGuid,
+                        SteefproefDatum = (DateTime)keuringsregistratie.steekproef,
+                        Keuringsdatum = keuringsregistratie.keuringsdatum
                     });
                 }
             }
-            catch (HttpRequestException exception)
+            catch (AggregateException exception)
             {
                 return BadRequest();
             }
