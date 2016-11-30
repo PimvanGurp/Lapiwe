@@ -2,7 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Lapiwe.IS.RDW.IntergratieTests
@@ -13,27 +15,33 @@ namespace Lapiwe.IS.RDW.IntergratieTests
         [TestMethod]
         public void RdwRequest()
         {
-            var result = new RDWAgent().SendKeuringsVerzoekAsync(new keuringsverzoek()
-            {
-                keuringsdatum = new DateTime(2016,11,11),
-                voertuig = new keuringsverzoekVoertuig()
-                {
-                    kenteken = "12-34-as",
-                    kilometerstand = 10,
-                    naam = "Henk",
-                    type = voertuigtype.personenauto
-                },
-                keuringsinstantie = new keuringsinstantie()
-                {
-                    kvk = "3013 5370",
-                    naam = "Garage Voorbeeld B.V.",
-                    plaats = "Wijk bij Voorbeeld",
-                    type = "garage"
-                }
-            }).Result;
+            // Arrange
+            var verzoek = File.ReadAllText("XMLTestFiles/Correct_KeuringsVerzoek.xml");
+            var target = new RDWAgent();
+            var result = target.SendKeuringsVerzoekAsync(verzoek).Result;
+            //Act
+            var response = File.ReadAllText("XMLTestFiles/Correct_KeuringsResponse.xml");
 
-            Assert.AreEqual(new DateTime(2016, 11, 11), result.keuringsdatum);
-            Assert.AreEqual("12-34-as", result.kenteken);
+            //Assert
+            Assert.IsNotNull(response);
+        }
+        [TestMethod]
+        public void BadRequestTest()
+        {
+            // Arrange
+            var verzoek = File.ReadAllText("XMLTestFiles/Incorrect_KeuringsVerzoek.xml");
+            var target = new RDWAgent();
+           
+            try
+            {
+                var result = target.SendKeuringsVerzoekAsync(verzoek).Result;
+
+                Assert.Fail();
+            }
+            catch(Exception exception)
+            {
+                Assert.IsInstanceOfType(exception, typeof(AggregateException));
+            }
         }
     }
 }

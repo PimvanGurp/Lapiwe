@@ -9,6 +9,13 @@ using Lapiwe.IS.RDW.Export.Commands;
 using Lapiwe.IS.RDW.Agents.Interfaces;
 using Lapiwe.IS.RDW.Export.Events;
 using Lapiwe.IS.RDW.Agents;
+using System.Net.Http;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Text;
+using Lapiwe.IS.RDW.Models;
+using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Lapiwe.IS.RDW.Controllers
 {
@@ -26,34 +33,13 @@ namespace Lapiwe.IS.RDW.Controllers
             _RDWAgent = rdwAgent;
         }
 
-        [HttpGet]
-        public IActionResult Post()
-        {
-            var result = new RDWAgent().SendKeuringsVerzoekAsync(new keuringsverzoek()
-            {
-                keuringsdatum = new DateTime(2016, 11, 11),
-                voertuig = new keuringsverzoekVoertuig()
-                {
-                    kenteken = "12-34-as",
-                    kilometerstand = 10,
-                    naam = "Henk",
-                    type = voertuigtype.personenauto
-                },
-                keuringsinstantie = new keuringsinstantie()
-                {
-                    kvk = "3013 5370",
-                    naam = "Garage Voorbeeld B.V.",
-                    plaats = "Wijk bij Voorbeeld",
-                    type = "garage"
-                }
-            }).Result;
-            return null;
-        }
-
-        public async Task<IActionResult> Verzoek(KeuringsVerzoekCommand keuringsVerzoekCommand)
+        [HttpPost]
+        [SwaggerOperation("Verzoek")]
+        public async Task<IActionResult> Verzoek([FromBody]KeuringsVerzoekCommand keuringsVerzoekCommand)
         {
             var verzoek = new keuringsverzoek()
             {
+                keuringsdatum = DateTime.Now,
                 voertuig = new keuringsverzoekVoertuig()
                 {
                     kenteken = keuringsVerzoekCommand.Kenteken,
@@ -62,21 +48,84 @@ namespace Lapiwe.IS.RDW.Controllers
                 }
             };
 
-            var response = await _RDWAgent.SendKeuringsVerzoekAsync(verzoek); //TODO can throw a HttpRequestException
-
-            _logContext.KeuringsVerzoeken.Add(verzoek);
-            _logContext.KeuringsRegistraties.Add(response);
-            _logContext.SaveChanges();
-
-            if (!response.steekproefSpecified)
+            string response;
+            try
             {
-                _publisher.Publish(new KeuringVerwerktZonderSteekproefEvent()
+                string verzoekXml = SerializeKeuringsverzoekToXml(verzoek);
+                response = await _RDWAgent.SendKeuringsVerzoekAsync(verzoekXml);
+                var keuringsregistratie = SerializeToKeuringsregistratie(response);
+
+                bool isSteekproef = keuringsregistratie.steekproef != null;
+
+                _logContext.Logs.Add(new Log()
                 {
-                    OnderhoudsGuid = keuringsVerzoekCommand.OnderhoudsGuid
+                    Xml = verzoekXml,
+                    Type = typeof(keuringsverzoek).ToString()
                 });
-            } 
+
+                _logContext.Logs.Add(new Log()
+                {
+                    Xml = response,
+                    Type = typeof(keuringsregistratie).ToString()
+                });
+                _logContext.SaveChanges();
+
+                if (!isSteekproef)
+                {
+                    _publisher.Publish(new KeuringVerwerktZonderSteekproefEvent()
+                    {
+                        OnderhoudsGuid = keuringsVerzoekCommand.OnderhoudsGuid,
+                    });
+                }
+                else if (isSteekproef)
+                {
+                    _publisher.Publish(new KeuringVerwerktMetSteekproefEvent()
+                    {
+                        OnderhoudsGuid = keuringsVerzoekCommand.OnderhoudsGuid
+                    });
+                }
+            }
+            catch (HttpRequestException exception)
+            {
+                return BadRequest();
+            }
 
             return Ok();
+        }
+
+        private keuringsregistratie SerializeToKeuringsregistratie(string xml)
+        {
+            XmlSerializer keuringsregistratieSerializer = new XmlSerializer(typeof(keuringsregistratie));
+            using (var xmlReader = XmlReader.Create(new StringReader(xml)))
+            {
+                xmlReader.MoveToContent();
+                xml = xmlReader.ReadInnerXml();
+            }
+            using (var stringReader = new StringReader(xml))
+            {
+                var keuringsRegistratie = (keuringsregistratie)keuringsregistratieSerializer.Deserialize(stringReader);
+                return keuringsRegistratie;
+            }
+        }
+
+        private string SerializeKeuringsverzoekToXml(keuringsverzoek verzoek)
+        {
+            XmlSerializer keuringsverzoekSerializer = new XmlSerializer(typeof(keuringsverzoek));
+            using (var stringWriter = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(stringWriter, new XmlWriterSettings
+                {
+                    Indent = true,
+                    OmitXmlDeclaration = true
+                }))
+                {
+                    keuringsverzoekSerializer.Serialize(writer, verzoek);
+                    var result = stringWriter.ToString();
+                    result = "<apkKeuringsverzoekRequestMessage xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" + result;
+                    result = result + "</apkKeuringsverzoekRequestMessage>";
+                    return result;
+                }
+            }
         }
     }
 }
