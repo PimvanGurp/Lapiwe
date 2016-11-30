@@ -33,7 +33,7 @@ namespace Lapiwe.OnderhoudService.Infrastructure.Test
 
 
         [TestMethod]
-        public void MyTestMethod()
+        public void Repository_InsertAddsItem()
         {
             // Arrange
             var options = CreateNewContextOptions();

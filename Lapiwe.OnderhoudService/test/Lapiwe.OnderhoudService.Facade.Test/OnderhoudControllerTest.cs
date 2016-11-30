@@ -19,29 +19,32 @@ namespace Lapiwe.OnderhoudService.Facade.Test
         [TestMethod]
         public void OnderhoudControllerPostSuccess()
         {
+            // Arrange
             var repoMock = new Mock<IRepository>(MockBehavior.Strict);
-
             var pubMock = new Mock<IEventPublisher>(MockBehavior.Strict);
-
             var target = new OnderhoudController(repoMock.Object, pubMock.Object);
 
             var command = new RegisteerOnderhoudOpdrachtCommand();
+
+            // Act
             IActionResult result = target.Post(command);
 
+            // Assert
             Assert.IsInstanceOfType(result, typeof(OkResult));
         }
 
         [TestMethod]
         public void OnderhoudControllerPostFails()
         {
+            // Arrange
             var repoMock = new Mock<IRepository>(MockBehavior.Strict);
-
             var pubMock = new Mock<IEventPublisher>(MockBehavior.Strict);
-
             var target = new OnderhoudController(repoMock.Object, pubMock.Object);
 
+            // Act
             IActionResult result = target.Post(null);
 
+            // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
         }
     }
