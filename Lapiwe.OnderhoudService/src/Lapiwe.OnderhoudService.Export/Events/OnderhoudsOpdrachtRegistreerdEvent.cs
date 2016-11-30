@@ -26,5 +26,10 @@ namespace Lapiwe.OnderhoudService.Export
             OpdrachtOmschrijving = opdrachtOmschrijving;
             Apk = apk;
         }
+
+        public OnderhoudsOpdrachtGeregistreerdEvent()
+        {
+
+        }
     }
 }

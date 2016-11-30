@@ -51,6 +51,8 @@ namespace Lapiwe.OnderhoudService.Facade.Test
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkResult));
+            repoMock.Verify(r => r.Insert(It.IsAny<OnderhoudsOpdracht>()), Times.Once());
+            pubMock.Verify(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGeregistreerdEvent>()), Times.Once());
         }
     }
 }

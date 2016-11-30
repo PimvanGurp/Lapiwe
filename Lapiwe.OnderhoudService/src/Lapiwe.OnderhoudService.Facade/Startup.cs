@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Lapiwe.OnderhoudService.Infrastructure;
 using Lapiwe.Common.Infastructure;
 using Lapiwe.EventBus.Publishers;
+using Swashbuckle.Swagger.Model;
 
 namespace Lapiwe.OnderhoudService.Facade
 {
@@ -43,6 +44,17 @@ namespace Lapiwe.OnderhoudService.Facade
             services.AddScoped<IRepository, OnderhoudRepository>();
             services.AddScoped<IEventPublisher, EventPublisher>();
 
+            services.AddSwaggerGen();
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "OnderhoudOpdracht Service",
+                    TermsOfService = "&copy; Lapiwe"
+                });
+            });
+
             services.AddMvc();
         }
 
@@ -55,6 +67,9 @@ namespace Lapiwe.OnderhoudService.Facade
             app.UseApplicationInsightsRequestTelemetry();
 
             app.UseApplicationInsightsExceptionTelemetry();
+
+            app.UseSwagger();
+            app.UseSwaggerUi();
 
             app.UseMvc();
         }
