@@ -7,6 +7,6 @@ namespace Lapiwe.IS.RDW.Agents.Interfaces
 {
     public interface IRDWAgent
     {
-        Task<keuringsregistratie> SendKeuringsVerzoekAsync(keuringsverzoek verzoek);
+        Task<string> SendKeuringsVerzoekAsync(string verzoek);
     }
 }

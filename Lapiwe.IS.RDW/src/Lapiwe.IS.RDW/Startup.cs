@@ -7,6 +7,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Lapiwe.IS.RDW.DAL;
+using Lapiwe.IS.RDW.Agents.Interfaces;
+using Lapiwe.IS.RDW.Agents;
+using Lapiwe.Common.Infastructure;
+using Lapiwe.EventBus.Publishers;
+using Swashbuckle.Swagger.Model;
 
 namespace Lapiwe.IS.RDW
 {
@@ -37,7 +43,22 @@ namespace Lapiwe.IS.RDW
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
+            services.AddSwaggerGen();
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "A RDW Intergration Service",
+                    Description = "A RESTfull service for RDW keuringverzoeken",
+                    TermsOfService = "None"
+                });
+            });
+
             services.AddMvc();
+            services.AddDbContext<LogContext>();
+            services.AddScoped<IRDWAgent, RDWAgent>();
+            services.AddScoped<IEventPublisher, EventPublisher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -51,6 +72,8 @@ namespace Lapiwe.IS.RDW
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUi();
         }
     }
 }
