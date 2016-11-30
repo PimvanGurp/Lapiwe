@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -28,9 +29,7 @@ namespace Lapiwe.IS.RDW.Tests
             mockPublisher.Setup(publisher => publisher.Publish(It.IsAny<KeuringVerwerktZonderSteekproefEvent>()));
 
             KeuringsVerzoekCommand keuringsVerzoekCommand = DefaultKeuringsVerzoekCommand();
-            keuringsverzoek verzoek = DefaultKeuringsVerzoek();
-            keuringsregistratie response = DefaultKeuringsRegistratie();
-            response.steekproef = null;
+            string responseXml = File.ReadAllText("XMLTestFiles/KeuringsRegistratieZonderSteefproef.xml");
 
             var mockContext = new Mock<LogContext>();
             mockContext.Setup(context => context.Logs.Add(It.IsAny<Log>()));
@@ -39,7 +38,7 @@ namespace Lapiwe.IS.RDW.Tests
 
             var mockRDWAgent = new Mock<IRDWAgent>(MockBehavior.Strict);
             mockRDWAgent.Setup(rdwAgent => rdwAgent.SendKeuringsVerzoekAsync(It.IsAny<string>()))
-                .ReturnsAsync(response);
+                .ReturnsAsync(responseXml);
 
             var target = new KeuringController(mockContext.Object, mockPublisher.Object, mockRDWAgent.Object);
 
@@ -52,8 +51,8 @@ namespace Lapiwe.IS.RDW.Tests
                                                                 e.OnderhoudsGuid == Guid.ParseExact("c4ab88e8-b266-4816-a174-d4cf26b3832b", "D")))
                                                                 , Times.Once);
 
-            mockContext.Verify(context => context.Logs.Add(response), Times.Once);
-            mockContext.Verify(context => context.Logs.Add(It.IsAny<Log>(), 2));
+            mockContext.Verify(context => context.Logs.Add(It.Is<Log>(log => log.Xml == responseXml)), Times.Once);
+            mockContext.Verify(context => context.Logs.Add(It.IsAny<Log>()), Times.Exactly(2));
             mockContext.Verify(context => context.SaveChanges(), Times.Once);
         }
 
@@ -65,18 +64,15 @@ namespace Lapiwe.IS.RDW.Tests
             mockPublisher.Setup(publisher => publisher.Publish(It.IsAny<KeuringVerwerktMetSteekproefEvent>()));
 
             KeuringsVerzoekCommand keuringsVerzoekCommand = DefaultKeuringsVerzoekCommand();
-            keuringsverzoek verzoek = DefaultKeuringsVerzoek();
-            keuringsregistratie response = DefaultKeuringsRegistratie();
-            response.steekproef = new DateTime(2016, 11, 11);
+            string responseXml = File.ReadAllText("XMLTestFiles/KeuringsRegistratieMetSteefproef.xml");
 
             var mockContext = new Mock<LogContext>();
-            mockContext.Setup(context => context.KeuringsVerzoeken.Add(It.IsAny<keuringsverzoek>()));
-            mockContext.Setup(context => context.KeuringsRegistraties.Add(It.IsAny<keuringsregistratie>()));
+            mockContext.Setup(context => context.Logs.Add(It.IsAny<Log>()));
             mockContext.Setup(context => context.SaveChanges());
 
             var mockRDWAgent = new Mock<IRDWAgent>(MockBehavior.Strict);
-            mockRDWAgent.Setup(rdwAgent => rdwAgent.SendKeuringsVerzoekAsync(It.IsAny<keuringsverzoek>()))
-                .ReturnsAsync(response);
+            mockRDWAgent.Setup(rdwAgent => rdwAgent.SendKeuringsVerzoekAsync(It.IsAny<string>()))
+                .ReturnsAsync(responseXml);
 
             var target = new KeuringController(mockContext.Object, mockPublisher.Object, mockRDWAgent.Object);
 
@@ -89,12 +85,7 @@ namespace Lapiwe.IS.RDW.Tests
                                                                 e.OnderhoudsGuid == Guid.ParseExact("c4ab88e8-b266-4816-a174-d4cf26b3832b", "D")))
                                                                 , Times.Once);
 
-            mockContext.Verify(context => context.KeuringsRegistraties.Add(response), Times.Once);
-            mockContext.Verify(context => context.KeuringsVerzoeken.Add(It.Is<keuringsverzoek>(keuringsverzoek =>
-                                                                                               keuringsverzoek.voertuig.kenteken == verzoek.voertuig.kenteken &&
-                                                                                               keuringsverzoek.voertuig.kilometerstand == verzoek.voertuig.kilometerstand &&
-                                                                                               keuringsverzoek.voertuig.naam == verzoek.voertuig.naam))
-                                                                                               , Times.Once);
+            mockContext.Verify(context => context.Logs.Add(It.IsAny<Log>()),Times.Exactly(2));
             mockContext.Verify(context => context.SaveChanges(), Times.Once);
         }
 
@@ -104,14 +95,12 @@ namespace Lapiwe.IS.RDW.Tests
             var mockPublisher = new Mock<IEventPublisher>(MockBehavior.Strict);
 
             KeuringsVerzoekCommand keuringsVerzoekCommand = DefaultKeuringsVerzoekCommand();
-            keuringsverzoek verzoek = DefaultKeuringsVerzoek();
-            verzoek.voertuig.kenteken = null;
-           
+
             var mockContext = new Mock<LogContext>();
 
             var mockRDWAgent = new Mock<IRDWAgent>(MockBehavior.Strict);
-            mockRDWAgent.Setup(rdwAgent => rdwAgent.SendKeuringsVerzoekAsync(It.IsAny<keuringsverzoek>()))
-                .Throws<HttpRequestException>();
+            mockRDWAgent.Setup(rdwAgent => rdwAgent.SendKeuringsVerzoekAsync(It.IsAny<string>()))
+                .Throws<AggregateException>();
 
             var target = new KeuringController(mockContext.Object, mockPublisher.Object, mockRDWAgent.Object);
 
@@ -120,33 +109,10 @@ namespace Lapiwe.IS.RDW.Tests
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
-            mockContext.Verify(context => context.KeuringsRegistraties.Add(It.IsAny<keuringsregistratie>()), Times.Never);
-            mockContext.Verify(context => context.KeuringsVerzoeken.Add(It.IsAny<keuringsverzoek>()), Times.Never);
+            mockContext.Verify(context => context.Logs.Add(It.IsAny<Log>()), Times.Never);
         }
 
-        private static keuringsverzoek DefaultKeuringsVerzoek()
-        {
-            return new keuringsverzoek
-            {
-                voertuig = new keuringsverzoekVoertuig
-                {
-                    kenteken = "12-23-dd",
-                    kilometerstand = 1234,
-                    naam = "Harry de lois"
-                }
-            };
-        }
-
-        private static keuringsregistratie DefaultKeuringsRegistratie()
-        {
-            return new keuringsregistratie
-            {
-                steekproefSpecified = false,
-                kenteken = "12-23-dd",
-            };
-        }
-
-        private static KeuringsVerzoekCommand DefaultKeuringsVerzoekCommand()
+        private KeuringsVerzoekCommand DefaultKeuringsVerzoekCommand()
         {
             return new KeuringsVerzoekCommand()
             {

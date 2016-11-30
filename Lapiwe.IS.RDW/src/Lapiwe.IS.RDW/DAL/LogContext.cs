@@ -6,6 +6,9 @@ namespace Lapiwe.IS.RDW.DAL
 {
     public class LogContext : DbContext
     {
+        public LogContext()
+        {
+        }
         public LogContext(DbContextOptions options) : base(options)
         {
             Database.EnsureCreated();
