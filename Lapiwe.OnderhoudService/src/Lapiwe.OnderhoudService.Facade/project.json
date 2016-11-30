@@ -20,7 +20,8 @@
     "Lapiwe.OnderhoudService.Infrastructure": "1.0.0-*",
     "Lapiwe.Common": "1.2.3",
     "Lapiwe.EventBus": "1.0.3",
-    "Swashbuckle": "6.0.0-beta902"
+    "Swashbuckle": "6.0.0-beta902",
+    "SapientGuardian.EntityFrameworkCore.MySql": "7.1.14"
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"

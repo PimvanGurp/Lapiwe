@@ -29,6 +29,7 @@ namespace Lapiwe.OnderhoudService.Domain.Test
             Assert.AreEqual(true, target.Apk);
             Assert.AreEqual(10000, target.Kilometerstand);
             Assert.AreEqual(Status.Aangemeld, target.OpdrachtStatus);
+            Assert.AreEqual("Testing instantiation", target.OpdrachtOmschrijving);
         }
     }
 }
