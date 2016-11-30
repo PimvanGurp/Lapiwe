@@ -13,17 +13,17 @@ namespace Lapiwe.GMS.FrontEnd.Stub.Agents
 {
     public class RDWAgentStub : IRDWAgent
     {
-        private FrontendContext _context;
+        private ISimpleRepository _repository;
 
-        public RDWAgentStub(FrontendContext context)
+        public RDWAgentStub(ISimpleRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public IActionResult KeuringsVerzoek(KeuringsVerzoekCommand domainCommand)
         {
             // Simulate an incoming event
-            OnderhoudDispatcher dispatcher = new OnderhoudDispatcher(_context);
+            OnderhoudDispatcher dispatcher = new OnderhoudDispatcher(_repository);
 
             Random random = new Random();
 

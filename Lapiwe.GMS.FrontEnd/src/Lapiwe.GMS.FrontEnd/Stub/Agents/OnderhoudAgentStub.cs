@@ -14,17 +14,17 @@ namespace Lapiwe.GMS.FrontEnd.Stub.Agents
 {
     public class OnderhoudAgentStub : IOnderhoudAgent
     {
-        private FrontendContext _context;
+        private ISimpleRepository _repository;
 
-        public OnderhoudAgentStub(FrontendContext context)
+        public OnderhoudAgentStub(ISimpleRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public IActionResult Toevoegen(RegisteerOnderhoudOpdrachtCommand command)
         {
             // Simulate an incoming event
-            OnderhoudDispatcher dispatcher = new OnderhoudDispatcher(_context);
+            OnderhoudDispatcher dispatcher = new OnderhoudDispatcher(_repository);
 
             OnderhoudsOpdrachtGeregistreerdEvent domainEvent = new OnderhoudsOpdrachtGeregistreerdEvent(
                 opdrachtGuid: Guid.NewGuid(),

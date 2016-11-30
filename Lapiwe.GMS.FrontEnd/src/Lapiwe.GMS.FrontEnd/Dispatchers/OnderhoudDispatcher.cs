@@ -12,41 +12,38 @@ namespace Lapiwe.GMS.FrontEnd.Dispatchers
 {
     public class OnderhoudDispatcher
     {
-        private FrontendContext _context;
+        private ISimpleRepository _repository;
 
-        public OnderhoudDispatcher(FrontendContext context)
+        public OnderhoudDispatcher(ISimpleRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public void KeuringsVerzoekVerwerktZonderSteekproef(KeuringVerwerktZonderSteekproefEvent domainEvent)
         {
             KeuringsVerzoek verzoek = new KeuringsVerzoek(domainEvent.OnderhoudsGuid, true);
 
-            _context.KeuringsVerzoeken.Add(verzoek);
-            _context.SaveChanges();
+            _repository.Add(verzoek);
         }
 
         public void KeuringsVerzoekVerwerktMetSteekproef(KeuringVerwerktMetSteekproefEvent domainEvent)
         {
             KeuringsVerzoek verzoek = new KeuringsVerzoek(domainEvent.OnderhoudsGuid, false);
 
-            _context.KeuringsVerzoeken.Add(verzoek);
-            _context.SaveChanges();
+            _repository.Add(verzoek);
         }
 
         public void OnderhoudsOpdrachtGeregistreerd(OnderhoudsOpdrachtGeregistreerdEvent domainEvent)
         {
-            OnderhoudsOpdracht onderhoudsOpdracht = new OnderhoudsOpdracht
-            {
-                Apk = domainEvent.Apk,
-                AanmeldDatum = domainEvent.AanmeldDatum,
-                Kilometerstand = domainEvent.Kilometerstand,
-                OpdrachtOmschrijving = domainEvent.OpdrachtOmschrijving
-            };
+            OnderhoudsOpdracht onderhoudsOpdracht = new OnderhoudsOpdracht(
+                domainEvent.OnderhoudsOpdrachtGuid,
+                _repository.Find<Klant>(domainEvent.KlantGuid),
+                _repository.Find<Auto>(domainEvent.AutoGuid),
+                domainEvent.OpdrachtOmschrijving
+            );
+            onderhoudsOpdracht.Apk = domainEvent.Apk;
 
-            _context.OnderhoudsOpdrachten.Add(onderhoudsOpdracht);
-            _context.SaveChanges();
+            _repository.Add(onderhoudsOpdracht);
         }
     }
 }

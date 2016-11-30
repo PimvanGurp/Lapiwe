@@ -15,13 +15,13 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
 {
     public class OnderhoudsOpdrachtenController : Controller
     {
-        private FrontendContext _context;
+        private ISimpleRepository _repository;
         private IOnderhoudAgent _agent;
 
-        public OnderhoudsOpdrachtenController(IOnderhoudAgent agent, FrontendContext context)
+        public OnderhoudsOpdrachtenController(IOnderhoudAgent agent, ISimpleRepository repository)
         {
             _agent = agent;
-            _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -31,17 +31,24 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult Toevoegen(string klantnaam, string kenteken, int kilometerstand, string opdrachtomschrijving, bool apk)
-        {
+        public IActionResult Toevoegen(
+            string klantnaam, string telefoonnummer, string kenteken, 
+            int kilometerstand, string opdrachtomschrijving, bool apk
+        ) {
+            Auto auto = new Auto(kenteken, kilometerstand);
+            Klant klant = new Klant(klantnaam, telefoonnummer);
+
             RegisteerOnderhoudOpdrachtCommand command = new RegisteerOnderhoudOpdrachtCommand(
-                klantGuid: Guid.NewGuid(),
-                autoGuid: Guid.NewGuid(),
+                klantGuid: klant.Guid,
+                autoGuid: auto.Guid,
                 aanmeldDatum: DateTime.Now,
                 kilometerstand: kilometerstand,
                 opdrachtOmschrijving: opdrachtomschrijving,
                 apk: apk
             );
 
+            _repository.Add(auto);
+            _repository.Add(klant);
             _agent.Toevoegen(command);
 
             return RedirectToAction("Overzicht");
@@ -50,7 +57,7 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
         [HttpGet]
         public IActionResult Overzicht()
         {
-            IEnumerable<OnderhoudsOpdracht> onderhoudsOpdrachten = _context.OnderhoudsOpdrachten.ToList();
+            IEnumerable<OnderhoudsOpdracht> onderhoudsOpdrachten = _repository.FindAll<OnderhoudsOpdracht>();
 
             OnderhoudsOpdrachtenViewModel model = new OnderhoudsOpdrachtenViewModel(onderhoudsOpdrachten);
 

@@ -15,12 +15,12 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
     public class KeuringsVerzoekController : Controller
     {
         private IRDWAgent _agent;
-        private FrontendContext _context;
+        private ISimpleRepository _repository;
 
-        public KeuringsVerzoekController(IRDWAgent agent, FrontendContext context)
+        public KeuringsVerzoekController(IRDWAgent agent, ISimpleRepository repository)
         {
             _agent = agent;
-            _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -32,7 +32,7 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
         [HttpPost]
         public IActionResult Toevoegen(string voornaam, string tussenvoegsel, string achternaam, string kenteken, int kilometerstand)
         {
-            string volledigeNaam = $"{voornaam.First()}. {tussenvoegsel} {achternaam}";
+            string volledigeNaam = $"{voornaam.FirstOrDefault()}. {tussenvoegsel} {achternaam}";
 
             _agent.KeuringsVerzoek(new KeuringsVerzoekCommand() {
                 Kenteken = kenteken,
@@ -47,7 +47,7 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
         [HttpGet]
         public IActionResult Overzicht()
         {
-            IEnumerable<KeuringsVerzoek> verzoeken = _context.KeuringsVerzoeken.ToList();
+            IEnumerable<KeuringsVerzoek> verzoeken = _repository.FindAll<KeuringsVerzoek>();
 
             KeuringsVerzoekenViewModel model = new KeuringsVerzoekenViewModel(verzoeken);
 

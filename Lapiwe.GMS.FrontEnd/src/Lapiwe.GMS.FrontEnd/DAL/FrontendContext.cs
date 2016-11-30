@@ -12,6 +12,8 @@ namespace Lapiwe.GMS.FrontEnd.DAL
     public class FrontendContext : DbContext
     {
         public DbSet<OnderhoudsOpdracht> OnderhoudsOpdrachten { get; set; }
+        public DbSet<Auto> Autos { get; set; }
+        public DbSet<Klant> Klanten { get; set; }
         public DbSet<KeuringsVerzoek> KeuringsVerzoeken { get; set; }
 
         public FrontendContext(DbContextOptions options) : base(options)

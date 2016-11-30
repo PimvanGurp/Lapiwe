@@ -11,15 +11,16 @@ namespace Lapiwe.GMS.FrontEnd.Stub.Entities
     {
         [Key]
         public long ID { get; set; }
-        public Guid KlantGuid { get; set; }
-        public Guid AutoGuid { get; set; }
-        public DateTime AanmeldDatum { get; set; }
-        public string Kenteken { get; set; }
-        public string Klantnaam { get; set; }
-        public string Telefoonnummer { get; set; }
-        public int Kilometerstand { get; set; }
+        public Klant Klant { get; set; }
+        public Auto Auto { get; set; }
         public string OpdrachtOmschrijving { get; set; }
-        //public Status OpdrachtStatus { get; set; }
         public bool Apk { get; set; }
+
+        public OnderhoudsOpdracht(Guid onderhoudsOpdrachtGuid, Klant klant, Auto auto, string opdrachtOmschrijving) : base(onderhoudsOpdrachtGuid)
+        {
+            Klant = klant;
+            Auto = auto;
+            OpdrachtOmschrijving = opdrachtOmschrijving;
+        }
     }
 }
