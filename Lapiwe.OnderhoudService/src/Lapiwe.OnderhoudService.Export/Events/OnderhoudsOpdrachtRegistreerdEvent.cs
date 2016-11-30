@@ -15,5 +15,16 @@ namespace Lapiwe.OnderhoudService.Export
         public int Kilometerstand { get; set; }
         public string OpdrachtOmschrijving { get; set; }
         public bool Apk { get; set; }
+
+        public OnderhoudsOpdrachtGeregistreerdEvent(Guid opdrachtGuid, Guid klantGuid, Guid autoGuid, DateTime aanmeldDatum, int kilometerstand, string opdrachtOmschrijving, bool apk)
+        {
+            OnderhoudsOpdrachtGuid = opdrachtGuid;
+            KlantGuid = klantGuid;
+            AutoGuid = autoGuid;
+            AanmeldDatum = aanmeldDatum;
+            Kilometerstand = kilometerstand;
+            OpdrachtOmschrijving = opdrachtOmschrijving;
+            Apk = apk;
+        }
     }
 }
