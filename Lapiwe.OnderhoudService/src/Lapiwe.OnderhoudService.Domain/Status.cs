@@ -1,4 +1,5 @@
-﻿namespace Lapiwe.OnderhoudService.Domain
+﻿
+namespace Lapiwe.OnderhoudService.Domain
 {
     public enum Status
     {

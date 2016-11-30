@@ -52,6 +52,34 @@ namespace Lapiwe.OnderhoudService.Infrastructure.Test
 
         }
 
+        [TestMethod]
+        public void Repository_InsertAddsFiveItems()
+        {
+            // Arrange
+            var options = CreateNewContextOptions();
+            IRepository target = new OnderhoudRepository(options);
+
+            var opdracht1 = new OnderhoudsOpdracht() { };
+            var opdracht2 = new OnderhoudsOpdracht() { };
+            var opdracht3 = new OnderhoudsOpdracht() { };
+            var opdracht4 = new OnderhoudsOpdracht() { };
+            var opdracht5 = new OnderhoudsOpdracht() { };
+
+            // Act
+            target.Insert(opdracht1);
+            target.Insert(opdracht2);
+            target.Insert(opdracht3);
+            target.Insert(opdracht4);
+            target.Insert(opdracht5);
+
+            // Assert
+            using (var context = new OnderhoudContext(options))
+            {
+                Assert.AreEqual(5, context.OnderhoudsOpdrachten.Count());
+            }
+
+        }
+
 
     }
 }

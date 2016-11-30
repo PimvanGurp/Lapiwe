@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Lapiwe.OnderhoudService.Infrastructure;
+using Lapiwe.Common.Infastructure;
+using Lapiwe.EventBus.Publishers;
 
 namespace Lapiwe.OnderhoudService.Facade
 {
@@ -39,6 +41,7 @@ namespace Lapiwe.OnderhoudService.Facade
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddDbContext<OnderhoudContext>(ServiceLifetime.Scoped);
             services.AddScoped<IRepository, OnderhoudRepository>();
+            services.AddScoped<IEventPublisher, EventPublisher>();
 
             services.AddMvc();
         }

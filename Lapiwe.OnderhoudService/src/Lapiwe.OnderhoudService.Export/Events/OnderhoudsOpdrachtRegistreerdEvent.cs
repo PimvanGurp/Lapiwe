@@ -14,5 +14,6 @@ namespace Lapiwe.OnderhoudService.Export
         public DateTime AanmeldDatum { get; set; }
         public int Kilometerstand { get; set; }
         public string OpdrachtOmschrijving { get; set; }
+        public bool Apk { get; set; }
     }
 }

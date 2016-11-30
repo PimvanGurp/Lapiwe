@@ -18,7 +18,8 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Lapiwe.OnderhoudService.DomainService": "1.0.0-*",
     "Lapiwe.OnderhoudService.Infrastructure": "1.0.0-*",
-    "Lapiwe.Common": "1.2.3"
+    "Lapiwe.Common": "1.2.3",
+    "Lapiwe.EventBus": "1.0.3"
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"

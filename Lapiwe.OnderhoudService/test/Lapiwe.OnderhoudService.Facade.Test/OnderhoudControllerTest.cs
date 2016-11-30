@@ -1,4 +1,5 @@
 ﻿using Lapiwe.Common.Infastructure;
+using Lapiwe.OnderhoudService.Domain;
 using Lapiwe.OnderhoudService.Export;
 using Lapiwe.OnderhoudService.Facade.Controllers;
 using Lapiwe.OnderhoudService.Infrastructure;
@@ -17,23 +18,6 @@ namespace Lapiwe.OnderhoudService.Facade.Test
     {
 
         [TestMethod]
-        public void OnderhoudControllerPostSuccess()
-        {
-            // Arrange
-            var repoMock = new Mock<IRepository>(MockBehavior.Strict);
-            var pubMock = new Mock<IEventPublisher>(MockBehavior.Strict);
-            var target = new OnderhoudController(repoMock.Object, pubMock.Object);
-
-            var command = new RegisteerOnderhoudOpdrachtCommand();
-
-            // Act
-            IActionResult result = target.Post(command);
-
-            // Assert
-            Assert.IsInstanceOfType(result, typeof(OkResult));
-        }
-
-        [TestMethod]
         public void OnderhoudControllerPostFails()
         {
             // Arrange
@@ -46,6 +30,27 @@ namespace Lapiwe.OnderhoudService.Facade.Test
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+        }
+
+        [TestMethod]
+        public void OnderhoudControllerPostSuccess()
+        {
+            // Arrange
+            var repoMock = new Mock<IRepository>(MockBehavior.Strict);
+            repoMock.Setup(r => r.Insert(It.IsAny<OnderhoudsOpdracht>()));
+
+            var pubMock = new Mock<IEventPublisher>(MockBehavior.Strict);
+            pubMock.Setup(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGeregistreerdEvent>()));
+
+            var target = new OnderhoudController(repoMock.Object, pubMock.Object);
+
+            var command = new RegisteerOnderhoudOpdrachtCommand();
+
+            // Act
+            IActionResult result = target.Post(command);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkResult));
         }
     }
 }

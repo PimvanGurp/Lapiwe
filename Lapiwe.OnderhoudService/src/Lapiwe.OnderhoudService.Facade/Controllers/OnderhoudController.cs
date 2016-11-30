@@ -1,6 +1,7 @@
 ﻿
 using Lapiwe.Common.Domain;
 using Lapiwe.Common.Infastructure;
+using Lapiwe.OnderhoudService.Domain;
 using Lapiwe.OnderhoudService.Export;
 using Lapiwe.OnderhoudService.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -21,20 +22,38 @@ namespace Lapiwe.OnderhoudService.Facade.Controllers
             publisher = pub;
         }
 
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new List<string>() { "Get", "Success"};
-        }
-
         // POST api/values
         [HttpPost]
         [ProducesResponseType(typeof(OkResult), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(FunctionalError), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
         public IActionResult Post([FromBody]RegisteerOnderhoudOpdrachtCommand command)
         {
             if (ModelState.IsValid && command != null)
             {
+                OnderhoudsOpdracht opdracht = new OnderhoudsOpdracht
+                {
+                    AanmeldDatum = command.AanmeldDatum,
+                    Apk = command.Apk,
+                    AutoGuid = command.AutoGuid,
+                    Kilometerstand = command.Kilometerstand,
+                    KlantGuid = command.KlantGuid,
+                    OpdrachtOmschrijving = command.OpdrachtOmschrijving
+                };
+
+                repository.Insert(opdracht);
+
+                var OnderhoudEvent = new OnderhoudsOpdrachtGeregistreerdEvent
+                {
+                    AanmeldDatum = opdracht.AanmeldDatum,
+                    Apk = opdracht.Apk,
+                    AutoGuid = opdracht.AutoGuid,
+                    Kilometerstand = opdracht.Kilometerstand,
+                    KlantGuid = opdracht.KlantGuid,
+                    OnderhoudsOpdrachtGuid = opdracht.Guid,
+                    OpdrachtOmschrijving = opdracht.OpdrachtOmschrijving
+                };
+
+                publisher.Publish(OnderhoudEvent);
                 return Ok();
             }
 

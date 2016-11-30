@@ -17,6 +17,7 @@ namespace Lapiwe.OnderhoudService.Domain
         public int Kilometerstand { get; set; }
         public string OpdrachtOmschrijving { get; set; }
         public Status OpdrachtStatus { get; set; }
+        public bool Apk { get; set; }
 
 
     }

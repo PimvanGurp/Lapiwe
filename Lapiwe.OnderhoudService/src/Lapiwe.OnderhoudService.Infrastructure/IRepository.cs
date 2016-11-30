@@ -3,11 +3,8 @@ using Lapiwe.OnderhoudService.Domain;
 
 namespace Lapiwe.OnderhoudService.Infrastructure
 {
-    public class IRepository
+    public interface IRepository
     {
-        public void Insert(OnderhoudsOpdracht opdracht)
-        {
-            throw new NotImplementedException();
-        }
+        void Insert(OnderhoudsOpdracht opdracht);
     }
 }
