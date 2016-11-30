@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lapiwe.GMS.FrontEnd.Entities
+namespace Lapiwe.GMS.FrontEnd.Stub.Entities
 {
     public class KeuringsVerzoek : DomainEntity
     {

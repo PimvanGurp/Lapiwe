@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Lapiwe.GMS.FrontEnd.ViewModels;
 using MySQL.Data.Entity.Extensions;
-using Lapiwe.GMS.FrontEnd.Entities;
+using Lapiwe.GMS.FrontEnd.Stub.Entities;
 
 namespace Lapiwe.GMS.FrontEnd.DAL
 {

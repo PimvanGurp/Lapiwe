@@ -9,7 +9,7 @@ using Lapiwe.GMS.FrontEnd.Dispatchers;
 using Lapiwe.IS.RDW.Export.Events;
 using Lapiwe.GMS.FrontEnd.DAL;
 
-namespace Lapiwe.GMS.FrontEnd.Agents
+namespace Lapiwe.GMS.FrontEnd.Stub.Agents
 {
     public class RDWAgentStub : IRDWAgent
     {

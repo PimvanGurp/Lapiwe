@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Lapiwe.GMS.FrontEnd.ViewModels;
-using Lapiwe.GMS.FrontEnd.Agents;
+using Lapiwe.GMS.FrontEnd.Stub.Agents;
 using Lapiwe.GMS.FrontEnd.DAL;
 
 namespace Lapiwe.GMS.FrontEnd
@@ -45,6 +45,7 @@ namespace Lapiwe.GMS.FrontEnd
 
             //Replace with real agent
             services.AddScoped<IRDWAgent, RDWAgentStub>();
+            services.AddScoped<IOnderhoudAgent, OnderhoudAgentStub>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lapiwe.GMS.FrontEnd.Agents
+namespace Lapiwe.GMS.FrontEnd.Stub.Agents
 {
     public interface IRDWAgent
     {

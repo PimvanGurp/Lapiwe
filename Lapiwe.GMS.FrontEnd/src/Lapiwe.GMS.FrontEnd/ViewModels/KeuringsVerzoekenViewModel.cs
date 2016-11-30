@@ -1,4 +1,4 @@
-﻿using Lapiwe.GMS.FrontEnd.Entities;
+﻿using Lapiwe.GMS.FrontEnd.Stub.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

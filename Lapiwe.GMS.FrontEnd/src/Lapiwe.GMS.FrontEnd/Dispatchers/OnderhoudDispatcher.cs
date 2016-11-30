@@ -1,7 +1,8 @@
 ﻿using Lapiwe.EventBus.Dispatchers;
 using Lapiwe.GMS.FrontEnd.DAL;
-using Lapiwe.GMS.FrontEnd.Entities;
+using Lapiwe.GMS.FrontEnd.Stub.Entities;
 using Lapiwe.IS.RDW.Export.Events;
+using Lapiwe.OnderhoudService.Export;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,20 @@ namespace Lapiwe.GMS.FrontEnd.Dispatchers
             KeuringsVerzoek verzoek = new KeuringsVerzoek(domainEvent.OnderhoudsGuid, false);
 
             _context.KeuringsVerzoeken.Add(verzoek);
+            _context.SaveChanges();
+        }
+
+        public void OnderhoudsOpdrachtGeregistreerd(OnderhoudsOpdrachtGeregistreerdEvent domainEvent)
+        {
+            OnderhoudsOpdracht onderhoudsOpdracht = new OnderhoudsOpdracht
+            {
+                Apk = domainEvent.Apk,
+                AanmeldDatum = domainEvent.AanmeldDatum,
+                Kilometerstand = domainEvent.Kilometerstand,
+                OpdrachtOmschrijving = domainEvent.OpdrachtOmschrijving
+            };
+
+            _context.OnderhoudsOpdrachten.Add(onderhoudsOpdracht);
             _context.SaveChanges();
         }
     }

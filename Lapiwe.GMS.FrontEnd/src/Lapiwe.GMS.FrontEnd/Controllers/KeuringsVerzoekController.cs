@@ -1,7 +1,7 @@
 ﻿using Lapiwe.Common.Infastructure;
-using Lapiwe.GMS.FrontEnd.Agents;
+using Lapiwe.GMS.FrontEnd.Stub.Agents;
 using Lapiwe.GMS.FrontEnd.DAL;
-using Lapiwe.GMS.FrontEnd.Entities;
+using Lapiwe.GMS.FrontEnd.Stub.Entities;
 using Lapiwe.GMS.FrontEnd.ViewModels;
 using Lapiwe.IS.RDW.Export.Commands;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +24,13 @@ namespace Lapiwe.GMS.FrontEnd.Controllers
         }
 
         [HttpGet]
-        public IActionResult Versturen()
+        public IActionResult Invullen()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Versturen(string voornaam, string tussenvoegsel, string achternaam, string kenteken, int kilometerstand)
+        public IActionResult Toevoegen(string voornaam, string tussenvoegsel, string achternaam, string kenteken, int kilometerstand)
         {
             string volledigeNaam = $"{voornaam.First()}. {tussenvoegsel} {achternaam}";
 
