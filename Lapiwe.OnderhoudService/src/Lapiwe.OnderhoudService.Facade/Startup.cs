@@ -11,6 +11,7 @@ using Lapiwe.OnderhoudService.Infrastructure;
 using Lapiwe.Common.Infastructure;
 using Lapiwe.EventBus.Publishers;
 using Swashbuckle.Swagger.Model;
+using MySQL.Data.Entity.Extensions;
 
 namespace Lapiwe.OnderhoudService.Facade
 {
@@ -40,7 +41,11 @@ namespace Lapiwe.OnderhoudService.Facade
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
-            services.AddDbContext<OnderhoudContext>(ServiceLifetime.Scoped);
+
+            var connectionString = Configuration.GetConnectionString("DataAccessMySqlProvider") ?? "server=db;userid=admin;password=1234;database=onderhoud";
+
+            services.AddDbContext<OnderhoudContext>(context => context.UseMySQL(connectionString));
+
             services.AddScoped<IRepository, OnderhoudRepository>();
             services.AddScoped<IEventPublisher, EventPublisher>();
 
@@ -54,6 +59,7 @@ namespace Lapiwe.OnderhoudService.Facade
                     TermsOfService = "&copy; Lapiwe"
                 });
             });
+
 
             services.AddMvc();
         }
