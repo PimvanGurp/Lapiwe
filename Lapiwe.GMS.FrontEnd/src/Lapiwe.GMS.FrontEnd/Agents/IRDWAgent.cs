@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Lapiwe.IS.RDW.Export.Commands;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Lapiwe.GMS.FrontEnd.Agents
 {
-    public interface IOnderhoudAgent
+    public interface IRDWAgent
     {
-        IActionResult MeldAutoKlaar(string klantnaam, string kenteken, int kilometerstand); 
+        IActionResult KeuringsVerzoek(KeuringsVerzoekCommand domainCommand); 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Lapiwe.EventBus.Dispatchers;
 using Lapiwe.GMS.FrontEnd.DAL;
+using Lapiwe.GMS.FrontEnd.Entities;
 using Lapiwe.IS.RDW.Export.Events;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Lapiwe.GMS.FrontEnd.Dispatchers
 {
-    public class OnderhoudDispatcher : EventDispatcher
+    public class OnderhoudDispatcher
     {
         private FrontendContext _context;
 
@@ -17,15 +18,20 @@ namespace Lapiwe.GMS.FrontEnd.Dispatchers
             _context = context;
         }
 
-        public void AutoKlaargemeld(AutoKlaargemeldEvent domainEvent)
+        public void KeuringsVerzoekVerwerktZonderSteekproef(KeuringVerwerktZonderSteekproefEvent domainEvent)
         {
-            // Vind onderhoud
-            // Markeer als klaar
+            KeuringsVerzoek verzoek = new KeuringsVerzoek(domainEvent.OnderhoudsGuid, true);
+
+            _context.KeuringsVerzoeken.Add(verzoek);
+            _context.SaveChanges();
         }
 
-        public void AutoGekozenVoorSteekProef(AutoGekozenVoorSteekProefEvent domainEvent)
+        public void KeuringsVerzoekVerwerktMetSteekproef(KeuringVerwerktMetSteekproefEvent domainEvent)
         {
-            // Geef steekproef aan op onderhoud
+            KeuringsVerzoek verzoek = new KeuringsVerzoek(domainEvent.OnderhoudsGuid, false);
+
+            _context.KeuringsVerzoeken.Add(verzoek);
+            _context.SaveChanges();
         }
     }
 }
